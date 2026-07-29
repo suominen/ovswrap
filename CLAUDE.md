@@ -267,8 +267,8 @@ yet`) — longer caveats go in the `###` prose:
   off by default).  A mitigation is **not** a fix — it never earns
   `:white_check_mark:`.
 - `:grey_question: Unverified` — not yet verified (kernel pin or
-  advisory not yet inspected).  The EL and Proxmox rows seed this pending
-  advisory verification.
+  advisory not yet inspected).  The EL and Proxmox rows seeded this
+  pending advisory verification; no current row carries it.
 
 Note: OVSwrap has **no** severity downgrade — an affected unpatched
 in-window row is `:x:`, regardless of whether a given host runs OVS or
@@ -660,27 +660,29 @@ leading indicator and enterprise receives the same kernels later.
 *Seeding-and-adoption method — see "Routine run scope" above.  These
 indexes are gzipped; `zcat` is in the headless allowlist.*
 
-**For the EL rows, the Red Hat security data API is the authoritative
-leading signal** — RHEL is upstream of Rocky and AlmaLinux, so neither can
-be fixed before RHEL is, *and* Red Hat's own `fix_state` is the
+**For the EL rows, Red Hat's security data is the authoritative leading
+signal** — RHEL is upstream of Rocky and AlmaLinux, so neither can be
+fixed before RHEL is, *and* Red Hat's own assessment is the
 authoritative word on whether an EL kernel is even affected (its 4.18 /
-5.14 / 6.12.0 forks predate the mainline regression, but carry heavy
-backports, so only Red Hat's assessment settles it).  Read the per-CVE
-record's `package_state` (per-product `fix_state`: Affected / Not affected
-/ Will not fix / Out of support scope) and `affected_release` (the RHSA
-advisory ID + fixed kernel NVR once a fix ships):
+5.14 / 6.12.0 forks carry heavy backports, so the base version decides
+nothing).  That assessment landed 2026-07-27: **EL8 is not affected**
+(`vulnerable_code_not_present`) while **EL9 and EL10 are affected**
+with no remediation available — EL9's 5.14 fork carries the backported
+cap removal despite its base predating v6.14.  Read the CSAF/VEX
+record (the hydra securitydata API 404s for this CVE, and the
+access.redhat.com CVE page is JS-rendered — neither works headlessly):
 
 ```
-curl -fsSL 'https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2026-64531.json'
+curl -fsSL 'https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-64531.json'
 ```
 
-(or WebFetch `https://access.redhat.com/security/cve/CVE-2026-64531`.)  A
-**Not affected** `fix_state` for a product's kernel settles that Rocky row
-as `:heavy_minus_sign: Not affected` (predates the regression).  While a
-`fix_state` is **Affected** with an empty `affected_release`, no EL fix has
-shipped → that Rocky row stays `:x:`.  When `affected_release` gains a RHEL
-`kernel` entry, that NVR is the target; Rocky rebuilds it as an RLSA, with
-AlmaLinux the fastest rebuild (cross-check OSV
+In the VEX record, `product_status.known_affected` /
+`known_not_affected` carry the per-product verdicts (with `flags` the
+justification) and `remediations` the fix state; a shipped RHSA
+appears as a `vendor_fix` remediation with the fixed kernel NVR.
+While EL9/EL10 have no `vendor_fix`, their Rocky rows stay `:x:`.
+When one appears, that NVR is the target; Rocky rebuilds it as an
+RLSA, with AlmaLinux the fastest rebuild (cross-check OSV
 `https://api.osv.dev/v1/vulns/CVE-2026-64531`).  The RPM repodata below then
 confirms the Rocky ship and gives the current NVR.
 
@@ -690,10 +692,9 @@ accumulate every point release's kernel, so pick the numerically-highest
 `rel` (`sort -V`).
 
 - **Rocky** BaseOS: `https://dl.rockylinux.org/pub/rocky/<8|9|10>/BaseOS/x86_64/os`.
-  Rocky 8 (4.18) and 9 (5.14) predate v6.14 and are expected not affected;
-  Rocky 10 (6.12.0 base) is closer to the window — let the Red Hat record
-  decide.  An in-window row flips only when the BaseOS kernel NVR reaches
-  the RHEL fixed build.
+  Verdicts follow the Red Hat record: Rocky 8 not affected; Rocky 9 and
+  10 affected, awaiting an RHSA.  An affected row flips only when the
+  BaseOS kernel NVR reaches the RHEL fixed build.
 - **Amazon Linux**: the machine-readable ALAS signal is the repodata
   **`updateinfo.xml.gz`** (maps CVE → ALAS → fixed kernel NVR); the per-CVE
   ALAS HTML pages are JS-rendered and return nothing headlessly, so reading
@@ -770,10 +771,11 @@ several distro sites are JS-rendered SPAs that don't render via WebFetch.
   what gates it is the OVS kernel datapath + conntrack + (for unprivileged
   callers) unprivileged user namespaces, not the CPU.  Record host posture
   in prose, never as a column.
-- **EL family (Rocky/RHEL/Alma/Oracle/CloudLinux):** EL8 (4.18) and EL9
-  (5.14) predate the mainline regression and are expected not affected;
-  EL10 (6.12.0 base) needs the Red Hat record to decide.  AlmaLinux ships
-  ahead of Rocky/RHEL and is the leading indicator.
+- **EL family (Rocky/RHEL/Alma/Oracle/CloudLinux):** per Red Hat's
+  2026-07-27 assessment, EL8 (4.18) is not affected (vulnerable code
+  not present) while EL9 (5.14) and EL10 (6.12.0) are affected — EL9
+  via a backported cap removal.  AlmaLinux ships ahead of Rocky/RHEL
+  and is the leading indicator for the fix.
 - **Debian / Ubuntu / Proxmox VE:** the split-window cases live here —
   bullseye's 5.10 default is not affected while its 6.1 opt-in is in-window;
   PVE 8's 6.8/6.11 predate the bug while PVE 9's 6.14+ are in-window.

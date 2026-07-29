@@ -25,7 +25,7 @@ cover:
 | Discoverer | [Asim Manizada][writeup] (who also authored the upstream fix) |
 | Public disclosure | 2026-07-28 ([oss-security][oss]) |
 | Public PoC | [manizada/OVSwrap][poc] (ships a BPF mitigation) |
-| KEV / EPSS / CVSS | No CVSS in the kernel CNA record or NVD yet (NVD status *Received*); not in KEV. Pending |
+| KEV / EPSS / CVSS | Red Hat rates it **Moderate**, CVSS 3.1 **7.0** (`AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H`, 2026-07-27); no CVSS from the kernel CNA or NVD yet (NVD status *Received*); not in KEV |
 | Reachability | Needs the OVS **kernel datapath** in use, **conntrack/FTP-helper** actions, and — for an unprivileged trigger — **unprivileged user namespaces** enabled |
 {.summary}
 
@@ -109,9 +109,9 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Proxmox VE | 8 (6.14 opt-in) | 6.14.11-9-bpo12-pve | — | — | :x: Vulnerable — no cherry-pick |
 | NixOS | Unstable | 6.18.40 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | 26.05 | 6.18.40 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
-| Rocky Linux | 10 | 6.12.0-211.39.1.el10_2 | — | — | :grey_question: Unverified — EL10 6.12.0 fork; pending Red Hat assessment |
-| Rocky Linux | 9 | 5.14.0-687.30.1.el9_8 | — | — | :grey_question: Unverified — 5.14 predates the upstream regression; pending Red Hat assessment |
-| Rocky Linux | 8 | 4.18.0-553.147.1.el8_10 | — | — | :grey_question: Unverified — 4.18 predates the upstream regression; pending Red Hat assessment |
+| Rocky Linux | 10 | 6.12.0-211.39.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
+| Rocky Linux | 9 | 5.14.0-687.30.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
+| Rocky Linux | 8 | 4.18.0-553.147.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
 | Amazon Linux | 2023 (default) | 6.1.176-223.369 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (kernel6.12) | 6.12.94-123.192 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (kernel6.18) | 6.18.38-76.139 | — | — | :x: Vulnerable — no ALAS yet |
@@ -172,11 +172,17 @@ as a late Proxmox cherry-pick.
 
 RHEL-family kernels are long-lived forks with heavily backported feature
 sets, so the base version alone cannot decide whether the 2025 OVS cap
-removal is present — Red Hat's assessment is authoritative, and none had
-been published at seed. EL8 (4.18) and EL9 (5.14) predate v6.14 by years
-and are expected not affected; EL10 (6.12.0 base) is closer to the window
-and needs explicit confirmation. Oracle Linux and CloudLinux OS track the
-RHEL determination.
+removal is present — Red Hat's assessment is authoritative, and it
+arrived on 2026-07-27: **EL8 (4.18) is not affected** (*vulnerable code
+not present*), while **EL9 (5.14) and EL10 (6.12.0) are affected** with
+no fix available yet. EL9 carries the cap removal as a backport despite
+its base predating the regression — the same pattern as Proxmox's
+Ubuntu-derived 6.8 kernel. Rocky rebuilds RHEL's kernels unchanged, so
+these verdicts carry over; the affected rows flip when Rocky rebuilds
+the fixing RHSA (AlmaLinux, typically the fastest rebuild, is the
+leading indicator). Oracle Linux and CloudLinux OS track the RHEL
+determination. The niche `kernel-rt` real-time variant carries the same
+per-release verdicts and has no separate row.
 
 ### Amazon Linux
 
@@ -342,9 +348,9 @@ reproduced. Most readers never need it.
 - **Not-affected lines** confirmed by the *absence* of the introducing
   subject on `origin/linux-5.10.y` (and by the `.dyad` listing no intro
   pair below 5.15.180): 5.10.y and earlier lack the cap removal.
-- No CVSS was present in the `vulns.git` record (`.cvss` absent) and NVD
-  reported status *Received* with an empty `metrics` block — scores
-  pending.
+- No CVSS in the `vulns.git` record (`.cvss` absent); NVD reports
+  status *Received* with an empty `metrics` block. Red Hat's score is
+  under *Scoring* below.
 
 #### Distributions
 
@@ -379,16 +385,19 @@ reproduced. Most readers never need it.
   each channel's `git-revision` pin, `~/src/nixos/nixpkgs`) — default
   `linuxPackages` (`linux_6_18`) on nixos-unstable and nixos-26.05 at
   `6.18.40`, a fixed release — fixed.
-- **Rocky / RHEL family** (via the Red Hat security-data API and the
-  Rocky BaseOS repodata):
-  - The Red Hat security-data API has no record for CVE-2026-64531
-    (HTTP 404) — no EL assessment yet, so the rows stay unverified.
-  - Rocky 10 — BaseOS kernel `6.12.0-211.39.1.el10_2`; the EL10 6.12.0
-    fork needs Red Hat's explicit call.
-  - Rocky 9 — `5.14.0-687.30.1.el9_8`; 5.14 predates v6.14 — expected
-    not affected.
-  - Rocky 8 — `4.18.0-553.147.1.el8_10`; 4.18 predates v6.14 — expected
-    not affected.
+- **Rocky / RHEL family** (via the Red Hat CSAF/VEX record and the
+  Rocky BaseOS repodata; the hydra securitydata API still returns 404
+  for this CVE):
+  - Red Hat's assessment, released 2026-07-27: RHEL 9 and 10 `kernel`
+    (and `kernel-rt`) *known_affected* with no remediation available;
+    RHEL 8 (and 7) *known_not_affected*, justification
+    *vulnerable_code_not_present*.
+  - Rocky 10 — BaseOS kernel `6.12.0-211.39.1.el10_2`; RHEL 10
+    affected, no RHSA — vulnerable.
+  - Rocky 9 — `5.14.0-687.30.1.el9_8`; RHEL 9 affected (the 5.14 fork
+    carries the cap removal by backport), no RHSA — vulnerable.
+  - Rocky 8 — `4.18.0-553.147.1.el8_10`; RHEL 8 not affected — not
+    affected.
 - **Amazon Linux** (via the AL2023 core repodata — `primary.xml.gz` for
   versions, `updateinfo.xml.gz` for advisories):
   - `updateinfo.xml.gz` has no entry for CVE-2026-64531 — no ALAS; all
@@ -396,6 +405,13 @@ reproduced. Most readers never need it.
   - Streams (default `kernel` 6.1.176-223.369; `kernel6.12`
     6.12.94-123.192; `kernel6.18` 6.18.38-76.139) are in-window and
     below their series' fixed releases.
+
+#### Scoring
+
+- **Red Hat** (CSAF/VEX record, released 2026-07-27): severity
+  **Moderate**, CVSS 3.1 **7.0**
+  (`CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H`).
+- No kernel-CNA or NVD score yet; not in KEV.
 {{< /details >}}
 
 ## References
