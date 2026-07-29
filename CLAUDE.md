@@ -169,10 +169,12 @@ row `11 (linux-6.1 opt-in)`).  Note the split this bug creates: bullseye's
 its **opt-in** 6.1 kernel *is* in-window — the two rows carry opposite
 verdicts.  An opt-in row's verdict never flips the default row's.  The
 same default-plus-variant row pattern applies to Proxmox
-(`proxmox-kernel-*` series), with a third Release label: PVE opt-in
-kernels are previews of the next default (per the Proxmox forum
-announcements), so series get superseded — a former default or an
-opt-in overtaken by a newer one is labelled `old` (`9 (6.17 old)`).
+(`proxmox-kernel-*` series), with two wrinkles: a default row is
+labelled plain `9 (default)` — its series is visible in *Current
+kernel* and named in the prose — and there is a third Release label:
+PVE opt-in kernels are previews of the next default (per the Proxmox
+forum announcements), so series get superseded — a former default or
+an opt-in overtaken by a newer one is labelled `old` (`9 (6.17 old)`).
 Keep an `old` row (hosts still run it), but expect no more updates for
 it: Proxmox discontinues updates for superseded series after a short
 transition tail, and every such series is EOL on kernel.org, so an
@@ -206,11 +208,13 @@ back in scope.)
 **A default-kernel-series switch is always recordable.** PVE moves its
 default series during a release's lifetime (`proxmox-default-kernel`
 changing which `proxmox-kernel-*` it depends on), and a distro can add
-an opt-in series alongside it.  Record a switch in the affected row's
-Release label and prose, add a **new row** for a new opt-in series,
-relabel the superseded series' row `old` (and re-sort: old rows follow
-the live opt-ins, descending), and update the verification log —
-**together**, since a log-only update leaves the tracker self-inconsistent.
+an opt-in series alongside it.  Record a switch in the prose and the
+rows: the default row keeps its plain `(default)` label while its
+*Current kernel* moves to the new series, the superseded series gets an
+`old` row of its own (re-sort: old rows follow the live opt-ins,
+descending), a new opt-in series gets a **new row**, and update the
+verification log — **together**, since a log-only update leaves the
+tracker self-inconsistent.
 A switch can also flip a verdict on its own — a newer series may already
 contain the fix, or may newly be in-window where the old one was not — so
 re-derive the verdict rather than carrying the old one across.
