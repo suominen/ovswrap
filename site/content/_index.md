@@ -96,23 +96,23 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Linux kernel | 6.1.x | 6.1.178 | 6.1.178 | 2026-07-24 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 5.15.x | 5.15.212 | 5.15.212 | 2026-07-24 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 5.10.x | 5.10.261 | — | — | :heavy_minus_sign: Not affected — predates the introducing commit |
-| Debian | sid (unstable) | 7.1.5-1 | 7.1.5-1 | 2026-07-24 | :white_check_mark: Fixed |
+| Debian | sid (unstable) | 7.1.5-1 | 7.1.5-1 | 2026-07-27 | :white_check_mark: Fixed |
 | Debian | forky (testing) | 7.1.3-1 | — | — | :x: Vulnerable |
 | Debian | 13 (trixie) | 6.12.96-1 | — | — | :x: Vulnerable |
 | Debian | 12 (bookworm) | 6.1.177-1 | — | — | :x: Vulnerable |
 | Debian | 11 (bullseye, LTS) | 5.10.259-1 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
 | Debian | 11 (linux-6.1 opt-in) | 6.1.177-1~deb11u1 | — | — | :x: Vulnerable |
-| Proxmox VE | 9 (7.0 default) | 7.0.14-6-pve | — | — | :grey_question: Unverified — pending Proxmox advisory |
-| Proxmox VE | 9 (6.17 old) | 6.17.13-19-pve | — | — | :grey_question: Unverified — pending Proxmox advisory |
-| Proxmox VE | 9 (6.14 old) | 6.14.11-9-pve | — | — | :grey_question: Unverified — pending Proxmox advisory |
-| Proxmox VE | 8 (6.8 default) | 6.8.12-38-pve | — | — | :grey_question: Unverified — predates the regression; likely not affected |
-| Proxmox VE | 8 (6.14 opt-in) | 6.14.11-9-bpo12-pve | — | — | :grey_question: Unverified — pending Proxmox advisory |
+| Proxmox VE | 9 (7.0 default) | 7.0.14-8-pve | 7.0.14-8 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
+| Proxmox VE | 9 (6.17 old) | 6.17.13-21-pve | 6.17.13-21 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
+| Proxmox VE | 9 (6.14 old) | 6.14.11-9-pve | — | — | :x: Vulnerable — no cherry-pick |
+| Proxmox VE | 8 (6.8 default) | 6.8.12-39-pve | 6.8.12-39 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
+| Proxmox VE | 8 (6.14 opt-in) | 6.14.11-9-bpo12-pve | — | — | :x: Vulnerable — no cherry-pick |
 | NixOS | Unstable | 6.18.40 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | 26.05 | 6.18.40 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | Rocky Linux | 10 | 6.12.0-211.39.1.el10_2 | — | — | :grey_question: Unverified — EL10 6.12.0 fork; pending Red Hat assessment |
 | Rocky Linux | 9 | 5.14.0-687.30.1.el9_8 | — | — | :grey_question: Unverified — 5.14 predates the upstream regression; pending Red Hat assessment |
 | Rocky Linux | 8 | 4.18.0-553.147.1.el8_10 | — | — | :grey_question: Unverified — 4.18 predates the upstream regression; pending Red Hat assessment |
-| Amazon Linux | 2023 (kernel 6.1) | 6.1.176-223.369 | — | — | :x: Vulnerable — default stream, no ALAS yet |
+| Amazon Linux | 2023 (default) | 6.1.176-223.369 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (kernel6.12) | 6.12.94-123.192 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (kernel6.18) | 6.18.38-76.139 | — | — | :x: Vulnerable — no ALAS yet |
 {.distros}
@@ -149,16 +149,24 @@ unprivileged local vector is open unless an admin disables it.
 ### Proxmox VE
 
 Proxmox ships its own kernels (`proxmox-kernel-*`), so Debian's status
-does not carry over, and no Proxmox advisory has appeared yet. Its
-6.14-and-newer series (PVE 9's 7.0, 6.17, and 6.14; PVE 8's 6.14 opt-in)
-are in-window and would need a Proxmox cherry-pick, while PVE 8's 6.8
-default predates the regression and is expected *not affected*.
+does not carry over. On 2026-07-28 Proxmox cherry-picked the fix into
+three series — PVE 9's 7.0 default (7.0.14-8), its superseded 6.17
+series (6.17.13-21), and PVE 8's 6.8 default (6.8.12-39) — each naming
+CVE-2026-64531 in the packaging changelog, with the fixed builds
+published in `pve-no-subscription`. The 6.8 fix is notable: although
+the upstream 6.8 base predates the regression, Proxmox's Ubuntu-derived
+6.8 kernel received the cherry-pick — Ubuntu's heavy backporting
+carried the vulnerable code in, so a pre-6.14 Proxmox series cannot be
+assumed safe by version alone.
 
-An *opt-in* series is Proxmox's preview of a likely next default; an *old*
-series is a superseded default or an opt-in overtaken by a newer one.
-Proxmox stops updating superseded series after a short transition tail,
-and every such series is end-of-life upstream, so a fix for an in-window
-*old* row could only ever arrive as a Proxmox cherry-pick.
+The 6.14 series (PVE 9's superseded default and its PVE 8 opt-in
+rebuild) received no cherry-pick and remains vulnerable. An *opt-in*
+series is Proxmox's preview of a likely next default; an *old* series
+is a superseded default or an opt-in overtaken by a newer one. Proxmox
+stops updating superseded series after a short transition tail — 6.17
+caught the fix inside that tail, but 6.14 appears past it, and every
+such series is end-of-life upstream, so a fix there could only arrive
+as a late Proxmox cherry-pick.
 
 ### Rocky Linux / RHEL family
 
@@ -173,7 +181,9 @@ RHEL determination.
 ### Amazon Linux
 
 No ALAS has been issued for this CVE yet, so every AL2023 kernel stream
-remains vulnerable pending an Amazon cherry-pick.
+remains vulnerable pending an Amazon cherry-pick. The *default* row is
+the plain `kernel` package (a 6.1-series stream); `kernel6.12` and
+`kernel6.18` are the opt-in streams.
 
 ## Detection
 
@@ -338,11 +348,9 @@ reproduced. Most readers never need it.
 
 #### Distributions
 
-- **Debian** (via the Debian security tracker page for CVE-2026-64531,
-  fetched 2026-07-29):
+- **Debian** (via the Debian security tracker data for CVE-2026-64531):
   - unstable/sid — `7.1.5-1` carries the fix — fixed. *First fixed*
-    `7.1.5-1`; *Fixed since* shown as the upstream 7.1.5 tag date
-    (2026-07-24) pending the exact sid-upload date from
+    `7.1.5-1`; *Fixed since* 2026-07-27, the version's `first_seen` in
     snapshot.debian.org.
   - testing/forky — `7.1.3-1`, in-window and below 7.1.5 — vulnerable.
   - stable/trixie — `6.12.96-1`, below the 6.12.97 fix — vulnerable.
@@ -350,24 +358,44 @@ reproduced. Most readers never need it.
   - LTS/bullseye default — `5.10.259-1`; the tracker notes *"Vulnerable
     code not present"* (5.10 predates `a1e64addf3ff`) — not affected.
   - LTS/bullseye opt-in `linux-6.1` — `6.1.177-1~deb11u1`, in-window and
-    below 6.1.178 — vulnerable.
-- **Proxmox VE** — seeded `:grey_question:`; no Proxmox advisory found at
-  seed. Current-kernel versions are carried over from the sibling
-  trackers' 2026-07-28 refresh (provisional until first verification).
-  Window expectation: PVE 9 (7.0 / 6.17 / 6.14) and the PVE 8 6.14 opt-in
-  are in-window; the PVE 8 6.8 default predates the regression.
-- **NixOS** — default `linuxPackages` on nixos-unstable and nixos-26.05 at
-  `6.18.40`, a fixed release — fixed (provisional until reconfirmed
-  against the channel pin).
-- **Rocky / RHEL family** — seeded `:grey_question:`; the Red Hat
-  security-data API returned no record for CVE-2026-64531 at seed
-  (HTTP 404). EL8 (4.18) and EL9 (5.14) predate v6.14 (expected not
-  affected); EL10 (6.12.0 base) needs explicit confirmation. NVRs carried
-  over from the 2026-07-28 sibling refresh.
-- **Amazon Linux** — AL2023's three streams (kernel 6.1, kernel6.12,
-  kernel6.18) are in-window and below their series' fixed release, with no
-  ALAS issued at seed — vulnerable. Versions carried over from the
-  2026-07-28 refresh.
+    below 6.1.178 — vulnerable (window-derived; the tracker carries no
+    `linux-6.1` record for this CVE).
+- **Proxmox VE** (via the `pve-no-subscription` `Packages.gz` indexes
+  and the `pve-kernel` packaging changelogs, `~/src/proxmox/pve-kernel`):
+  - PVE 9 default 7.0 — `proxmox-kernel-7.0` 7.0.14-8 published; its
+    changelog entry (2026-07-28) names *fix CVE-2026-64531 "OVSWrap"
+    LPE* — fixed.
+  - PVE 9 6.17 (old) — 6.17.13-21 published; changelog entry
+    (2026-07-28) names the CVE — fixed.
+  - PVE 9 6.14 (old) — 6.14.11-9 unchanged; the `trixie-6.14` changelog
+    carries no OVSwrap cherry-pick — vulnerable.
+  - PVE 8 default 6.8 — 6.8.12-39 published; changelog entry
+    (2026-07-28) names the CVE — fixed. Proxmox thereby treats the
+    Ubuntu-derived 6.8 kernel as affected although the upstream 6.8
+    base predates the regression.
+  - PVE 8 6.14 opt-in — 6.14.11-9~bpo12+1 unchanged; the
+    `bookworm-6.14` changelog carries no cherry-pick — vulnerable.
+- **NixOS** (via `kernels-org.json` and the `linux_default` alias at
+  each channel's `git-revision` pin, `~/src/nixos/nixpkgs`) — default
+  `linuxPackages` (`linux_6_18`) on nixos-unstable and nixos-26.05 at
+  `6.18.40`, a fixed release — fixed.
+- **Rocky / RHEL family** (via the Red Hat security-data API and the
+  Rocky BaseOS repodata):
+  - The Red Hat security-data API has no record for CVE-2026-64531
+    (HTTP 404) — no EL assessment yet, so the rows stay unverified.
+  - Rocky 10 — BaseOS kernel `6.12.0-211.39.1.el10_2`; the EL10 6.12.0
+    fork needs Red Hat's explicit call.
+  - Rocky 9 — `5.14.0-687.30.1.el9_8`; 5.14 predates v6.14 — expected
+    not affected.
+  - Rocky 8 — `4.18.0-553.147.1.el8_10`; 4.18 predates v6.14 — expected
+    not affected.
+- **Amazon Linux** (via the AL2023 core repodata — `primary.xml.gz` for
+  versions, `updateinfo.xml.gz` for advisories):
+  - `updateinfo.xml.gz` has no entry for CVE-2026-64531 — no ALAS; all
+    three streams stay vulnerable.
+  - Streams (default `kernel` 6.1.176-223.369; `kernel6.12`
+    6.12.94-123.192; `kernel6.18` 6.18.38-76.139) are in-window and
+    below their series' fixed releases.
 {{< /details >}}
 
 ## References

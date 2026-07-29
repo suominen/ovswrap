@@ -149,12 +149,12 @@ contiguous — the browser transform renders each run as one group heading
 row.  Keep the `{.distros}` block attribute on the line **immediately
 after** the table (no blank line between).
 
-Amazon rows are **one per AL2023 kernel stream** — name the stream in
-the **Release** column (`2023 (kernel6.12)`); keep every supported
-stream (default + opt-in) as its own row, and add a row when Amazon
-ships a new stream. Flag the default stream (the plain `kernel`
-package, currently 6.1) with a `default stream` note in its *Status*
-cell, so a reader can tell it from the opt-in streams.  **AL2 has no rows**: it reached end of support on
+Amazon rows are **one per AL2023 kernel stream** — label the default
+stream's row `2023 (default)` (it is the plain `kernel` package,
+currently 6.1 — named in the `### Amazon Linux` prose, not the table)
+and each opt-in stream by its package name (`2023 (kernel6.12)`); keep
+every supported stream (default + opt-in) as its own row, and add a
+row when Amazon ships a new stream.  **AL2 has no rows**: it reached end of support on
 2026-06-30 — before this tracker existed — so it is covered collectively
 in the `### Amazon Linux` prose (its 4.14 stream predates the regression;
 its 5.10/5.15 extras streams would need the same window check, but no ALAS
