@@ -110,7 +110,7 @@ per-distribution detail in the sections that follow. *First fixed* and
 | NixOS | Unstable | 6.18.40 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | 26.05 | 6.18.40 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | Rocky Linux | 10 | 6.12.0-211.40.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
-| Rocky Linux | 9 | 5.14.0-687.30.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
+| Rocky Linux | 9 | 5.14.0-687.31.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux | 8 | 4.18.0-553.148.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
 | Amazon Linux | 2023 (default) | 6.1.176-223.369 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (kernel6.12) | 6.12.94-123.192 | — | — | :x: Vulnerable — no ALAS yet |
@@ -394,7 +394,7 @@ reproduced. Most readers never need it.
     *vulnerable_code_not_present*.
   - Rocky 10 — BaseOS kernel `6.12.0-211.40.1.el10_2`; RHEL 10
     affected, no RHSA — vulnerable.
-  - Rocky 9 — `5.14.0-687.30.1.el9_8`; RHEL 9 affected (the 5.14 fork
+  - Rocky 9 — `5.14.0-687.31.1.el9_8`; RHEL 9 affected (the 5.14 fork
     carries the cap removal by backport), no RHSA — vulnerable.
   - Rocky 8 — `4.18.0-553.148.1.el8_10`; RHEL 8 not affected — not
     affected.
