@@ -3,7 +3,7 @@ title: "OVSwrap — Open vSwitch datapath overflow"
 description: "Linux kernel Open vSwitch datapath integer/buffer overflow (CVE-2026-64531, OVSwrap) — unprivileged local privilege escalation — distro patch status tracker"
 layout: "single"
 date: 2026-07-29
-lastmod: 2026-07-29
+lastmod: 2026-07-30
 cover:
   image: "ovswrap-tracker.png"
   alt: "OVSwrap — Linux kernel Open vSwitch datapath overflow tracker"
@@ -91,9 +91,9 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Linux kernel | 7.1.x | 7.1.5 | 7.1.5 | 2026-07-24 | :white_check_mark: Fixed |
 | Linux kernel | 7.0.x | 7.0.14 | — | — | :x: Vulnerable — EOL without the fix |
 | Linux kernel | 6.18.x | 6.18.40 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed — LTS |
-| Linux kernel | 6.12.x | 6.12.98 | 6.12.97 | 2026-07-24 | :white_check_mark: Fixed — LTS |
-| Linux kernel | 6.6.x | 6.6.145 | 6.6.145 | 2026-07-24 | :white_check_mark: Fixed — LTS |
-| Linux kernel | 6.1.x | 6.1.178 | 6.1.178 | 2026-07-24 | :white_check_mark: Fixed — LTS |
+| Linux kernel | 6.12.x | 6.12.99 | 6.12.97 | 2026-07-24 | :white_check_mark: Fixed — LTS |
+| Linux kernel | 6.6.x | 6.6.146 | 6.6.145 | 2026-07-24 | :white_check_mark: Fixed — LTS |
+| Linux kernel | 6.1.x | 6.1.179 | 6.1.178 | 2026-07-24 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 5.15.x | 5.15.212 | 5.15.212 | 2026-07-24 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 5.10.x | 5.10.261 | — | — | :heavy_minus_sign: Not affected — predates the introducing commit |
 | Debian | sid (unstable) | 7.1.5-1 | 7.1.5-1 | 2026-07-27 | :white_check_mark: Fixed |
@@ -109,9 +109,9 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Proxmox VE | 8 (6.14 opt-in) | 6.14.11-9-bpo12-pve | — | — | :x: Vulnerable — no cherry-pick |
 | NixOS | Unstable | 6.18.40 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | 26.05 | 6.18.40 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
-| Rocky Linux | 10 | 6.12.0-211.39.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
+| Rocky Linux | 10 | 6.12.0-211.40.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux | 9 | 5.14.0-687.30.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
-| Rocky Linux | 8 | 4.18.0-553.147.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
+| Rocky Linux | 8 | 4.18.0-553.148.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
 | Amazon Linux | 2023 (default) | 6.1.176-223.369 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (kernel6.12) | 6.12.94-123.192 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (kernel6.18) | 6.18.38-76.139 | — | — | :x: Vulnerable — no ALAS yet |
@@ -323,7 +323,7 @@ log records the provenance — the advisory, repository index, or git
 reference that established each fact — so any row can be audited or
 reproduced. Most readers never need it.
 
-*Last verified 2026-07-29.*
+*Last verified 2026-07-30.*
 
 {{< details summary="Full verification log" >}}
 #### Upstream
@@ -392,11 +392,11 @@ reproduced. Most readers never need it.
     (and `kernel-rt`) *known_affected* with no remediation available;
     RHEL 8 (and 7) *known_not_affected*, justification
     *vulnerable_code_not_present*.
-  - Rocky 10 — BaseOS kernel `6.12.0-211.39.1.el10_2`; RHEL 10
+  - Rocky 10 — BaseOS kernel `6.12.0-211.40.1.el10_2`; RHEL 10
     affected, no RHSA — vulnerable.
   - Rocky 9 — `5.14.0-687.30.1.el9_8`; RHEL 9 affected (the 5.14 fork
     carries the cap removal by backport), no RHSA — vulnerable.
-  - Rocky 8 — `4.18.0-553.147.1.el8_10`; RHEL 8 not affected — not
+  - Rocky 8 — `4.18.0-553.148.1.el8_10`; RHEL 8 not affected — not
     affected.
 - **Amazon Linux** (via the AL2023 core repodata — `primary.xml.gz` for
   versions, `updateinfo.xml.gz` for advisories):
