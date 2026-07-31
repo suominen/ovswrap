@@ -25,7 +25,7 @@ cover:
 | Discoverer | [Asim Manizada][writeup] (who also authored the upstream fix) |
 | Public disclosure | 2026-07-28 ([oss-security][oss]) |
 | Public PoC | [manizada/OVSwrap][poc] (ships a BPF mitigation) |
-| KEV / EPSS / CVSS | Red Hat rates it **Moderate**, CVSS 3.1 **7.0** (`AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H`, 2026-07-27); no CVSS from the kernel CNA or NVD yet (NVD status *Received*); not in KEV |
+| KEV / EPSS / CVSS | Kernel CNA and NVD: CVSS 3.1 **7.8 HIGH** (`AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H`, NVD status *Received*); Red Hat rates it **Moderate**, CVSS 3.1 **7.0** (`AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H`, 2026-07-27); no EPSS yet; not in KEV |
 | Reachability | Needs the OVS **kernel datapath** in use, **conntrack/FTP-helper** actions, and — for an unprivileged trigger — **unprivileged user namespaces** enabled |
 {.summary}
 
@@ -346,9 +346,8 @@ reproduced. Most readers never need it.
 - **Not-affected lines** confirmed by the *absence* of the introducing
   subject on `origin/linux-5.10.y` (and by the `.dyad` listing no intro
   pair below 5.15.180): 5.10.y and earlier lack the cap removal.
-- No CVSS in the `vulns.git` record (`.cvss` absent); NVD reports
-  status *Received* with an empty `metrics` block. Red Hat's score is
-  under *Scoring* below.
+- The kernel CNA now publishes a CVSS score in the `vulns.git` record
+  (`.cvss` present); NVD mirrors the same vector. See *Scoring* below.
 
 #### Distributions
 
@@ -406,10 +405,13 @@ reproduced. Most readers never need it.
 
 #### Scoring
 
+- **Kernel CNA** (`vulns.git` `.cvss`/`.json`, `origin/master`): CVSS 3.1
+  **7.8 HIGH** (`CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H`).
+- **NVD**: same CVSS 3.1 7.8 HIGH vector; `vulnStatus` *Received*.
 - **Red Hat** (CSAF/VEX record, released 2026-07-27): severity
   **Moderate**, CVSS 3.1 **7.0**
   (`CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H`).
-- No kernel-CNA or NVD score yet; not in KEV.
+- No EPSS score yet; not in KEV.
 {{< /details >}}
 
 ## References
