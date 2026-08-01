@@ -1,43 +1,27 @@
 # OVSwrap — Linux kernel Open vSwitch datapath overflow tracking site
 
-Patch-status tracker for **OVSwrap** (**CVE-2026-64531**), a local
-privilege escalation in the Linux kernel Open vSwitch (OVS) datapath.
-Parsing of nested netlink action attributes in
-`net/openvswitch/flow_netlink.c` lacks a per-attribute size check, so a
-`CLONE` action holding hundreds of conntrack actions can expand past
-65,535 bytes.  The generated attribute's 16-bit `nla_len` wraps, and
-later parsing resumes at attacker-controlled offsets inside the conntrack
-data — a heap out-of-bounds the PoC turns into kernel-pointer leaks,
-kernel-memory reads, and credential corruption for root.  Reaching it
-needs the OVS kernel datapath in use, conntrack/FTP-helper support, and
-(for an unprivileged trigger) unprivileged user namespaces enabled.
-Found and fixed by Asim Manizada, who
-[disclosed it on 2026-07-28](https://www.openwall.com/lists/oss-security/2026/07/28/8)
-with a [write-up](https://heyitsas.im/posts/ovswrap).
-Public PoC: <https://github.com/manizada/OVSwrap>.
+Source for the **OVSwrap** patch-status tracker: a single-page site
+recording which distributions have shipped a fix for the Open vSwitch
+datapath overflow in the Linux kernel.
 
-Unlike an ancient bug, this is a **recent regression**: the missing check
-was removed by `a1e64addf3ff` (*net: openvswitch: remove misbehaving
-actions length check*) in **v6.14** (2025-03-13), and fixed in v7.2-rc4 by
-[`3f1f75536668`](https://github.com/torvalds/linux/commit/3f1f755366687d051174739fb99f7d560202f60b)
-(*net: openvswitch: reject oversized nested action attrs*).  The cap
-removal was backported into stable, so a kernel is exposed only at or
-above its series' intro point (5.15.180, 6.1.132, 6.6.84, 6.12.20,
-6.13.8; mainline 6.14).  Series below that never received the change and
-are **not affected**; distro adoption of the fix is tracked below.
+## Where the facts live
 
-**CVE-2026-64531** is assigned; the kernel CNA backported the fix to
-5.15.212, 6.1.178, 6.6.145, 6.12.97, 6.18.40, and 7.1.5, but each
-distribution has to pick it up.
+Everything about the bug — CVE IDs, affected and fixed versions, upstream
+fix commits, discovery and disclosure credit, and current per-distribution
+patch status — belongs to the tracker page, not to this README:
 
-The rendered site is published at **<https://kimmo.cloud/ovswrap/>**.
+- **Rendered:** <https://kimmo.cloud/ovswrap/>
+- **Source:** [`site/content/_index.md`](site/content/_index.md)
+
+Edit that file; everything else in this repo is build infrastructure.
+
+None of it is restated here on purpose.  The tracker page is revised as
+CVEs are assigned and distributions ship fixes — for the actively updated
+trackers, twice daily by the auto-update agent — so any copy kept in this
+README would silently rot.  Resist re-adding a summary.
+
 Deployment plan and current setup state live in
 [`WEBSITE.md`](WEBSITE.md).
-
-## Source of truth
-
-The tracker is a single Hugo page: [`site/content/_index.md`](site/content/_index.md).
-Edit that file; everything else is build infrastructure.
 
 ## Local development
 
