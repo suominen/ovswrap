@@ -3,7 +3,7 @@ title: "OVSwrap — Open vSwitch datapath overflow"
 description: "Linux kernel Open vSwitch datapath integer/buffer overflow (CVE-2026-64531, OVSwrap) — unprivileged local privilege escalation — distro patch status tracker"
 layout: "single"
 date: 2026-07-29
-lastmod: 2026-07-31
+lastmod: 2026-08-01
 cover:
   image: "ovswrap-tracker.png"
   alt: "OVSwrap — Linux kernel Open vSwitch datapath overflow tracker"
@@ -25,7 +25,7 @@ cover:
 | Discoverer | [Asim Manizada][writeup] (who also authored the upstream fix) |
 | Public disclosure | 2026-07-28 ([oss-security][oss]) |
 | Public PoC | [manizada/OVSwrap][poc] (ships a BPF mitigation) |
-| KEV / EPSS / CVSS | Kernel CNA and NVD: CVSS 3.1 **7.8 HIGH** (`AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H`, NVD status *Received*); Red Hat rates it **Moderate**, CVSS 3.1 **7.0** (`AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H`, 2026-07-27); no EPSS yet; not in KEV |
+| KEV / EPSS / CVSS | Kernel CNA and NVD: CVSS 3.1 **7.8 HIGH** (`AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H`, NVD status *Received*); Red Hat rates it **Moderate**, CVSS 3.1 **7.0** (`AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H`, 2026-07-27); EPSS **0.12%** (percentile ~2%, 2026-07-31); not in KEV |
 | Reachability | Needs the OVS **kernel datapath** in use, **conntrack/FTP-helper** actions, and — for an unprivileged trigger — **unprivileged user namespaces** enabled |
 {.summary}
 
@@ -98,7 +98,7 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Linux kernel | 5.10.x | 5.10.262 | — | — | :heavy_minus_sign: Not affected — predates the introducing commit |
 | Debian | sid (unstable) | 7.1.5-1 | 7.1.5-1 | 2026-07-27 | :white_check_mark: Fixed |
 | Debian | forky (testing) | 7.1.3-1 | — | — | :x: Vulnerable |
-| Debian | 13 (trixie) | 6.12.96-1 | — | — | :x: Vulnerable |
+| Debian | 13 (trixie) | 6.12.100-1 | 6.12.100-1 | 2026-07-31 | :white_check_mark: Fixed |
 | Debian | 12 (bookworm) | 6.1.177-1 | — | — | :x: Vulnerable |
 | Debian | 11 (bullseye, LTS) | 5.10.259-1 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
 | Debian | 11 (linux-6.1 opt-in) | 6.1.177-1~deb11u1 | — | — | :x: Vulnerable |
@@ -138,10 +138,10 @@ Debian is affected only in the suites whose kernel carries the 2025 cap
 removal. **bullseye** (LTS) ships the 5.10 series, which predates the
 regression — the security tracker records *"vulnerable code not present"* —
 so its default kernel is **not affected**, while its opt-in `linux-6.1`
-kernel *is* in-window and still needs the fix. **bookworm**, **trixie**,
-and **forky** are all in-window and below their series' fixed release, so
-they are vulnerable pending a security upload; **sid** already carries the
-fix. Debian has shipped unprivileged user namespaces **enabled** by
+kernel *is* in-window and still needs the fix. **bookworm** and **forky**
+are in-window and below their series' fixed release, so they remain
+vulnerable pending a security upload; **trixie** and **sid** already carry
+the fix. Debian has shipped unprivileged user namespaces **enabled** by
 default since bullseye (`kernel.unprivileged_userns_clone=1`) and does not
 apply Ubuntu's AppArmor userns restriction, so on a stock Debian host the
 unprivileged local vector is open unless an admin disables it.
@@ -356,7 +356,9 @@ reproduced. Most readers never need it.
     `7.1.5-1`; *Fixed since* 2026-07-27, the version's `first_seen` in
     snapshot.debian.org.
   - testing/forky — `7.1.3-1`, in-window and below 7.1.5 — vulnerable.
-  - stable/trixie — `6.12.96-1`, below the 6.12.97 fix — vulnerable.
+  - stable/trixie — `6.12.100-1` (trixie-security) carries the fix —
+    fixed. *First fixed* `6.12.100-1`; *Fixed since* 2026-07-31, the
+    version's `first_seen` in snapshot.debian.org.
   - oldstable/bookworm — `6.1.177-1`, below the 6.1.178 fix — vulnerable.
   - LTS/bullseye default — `5.10.259-1`; the tracker notes *"Vulnerable
     code not present"* (5.10 predates `a1e64addf3ff`) — not affected.
@@ -411,7 +413,8 @@ reproduced. Most readers never need it.
 - **Red Hat** (CSAF/VEX record, released 2026-07-27): severity
   **Moderate**, CVSS 3.1 **7.0**
   (`CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H`).
-- No EPSS score yet; not in KEV.
+- **EPSS**: 0.12% (percentile ~2.2%), as of 2026-07-31 (FIRST.org). Not
+  in KEV.
 {{< /details >}}
 
 ## References
