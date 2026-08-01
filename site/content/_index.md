@@ -25,7 +25,7 @@ cover:
 | Discoverer | [Asim Manizada][writeup] (who also authored the upstream fix) |
 | Public disclosure | 2026-07-28 ([oss-security][oss]) |
 | Public PoC | [manizada/OVSwrap][poc] (ships a BPF mitigation) |
-| KEV / EPSS / CVSS | Kernel CNA and NVD: CVSS 3.1 **7.8 HIGH** (`AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H`, NVD status *Received*); Red Hat rates it **Moderate**, CVSS 3.1 **7.0** (`AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H`, 2026-07-27); EPSS **0.12%** (percentile ~2%, 2026-07-31); not in KEV |
+| KEV / EPSS / CVSS | Kernel CNA and NVD: CVSS 3.1 **7.8 HIGH** (`AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H`, NVD status *Received*); Red Hat revised its rating on 2026-07-31 to **Important**, CVSS 3.1 **7.8 HIGH** (same vector) — up from an initial **Moderate**, CVSS 3.1 **7.0** (`AC:H`) at disclosure; EPSS **0.12%** (percentile ~2%, 2026-07-31); not in KEV |
 | Reachability | Needs the OVS **kernel datapath** in use, **conntrack/FTP-helper** actions, and — for an unprivileged trigger — **unprivileged user namespaces** enabled |
 {.summary}
 
@@ -410,9 +410,11 @@ reproduced. Most readers never need it.
 - **Kernel CNA** (`vulns.git` `.cvss`/`.json`, `origin/master`): CVSS 3.1
   **7.8 HIGH** (`CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H`).
 - **NVD**: same CVSS 3.1 7.8 HIGH vector; `vulnStatus` *Received*.
-- **Red Hat** (CSAF/VEX record, released 2026-07-27): severity
-  **Moderate**, CVSS 3.1 **7.0**
-  (`CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H`).
+- **Red Hat** (CSAF/VEX record, revised 2026-07-31): severity
+  **Important**, CVSS 3.1 **7.8 HIGH**
+  (`CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H`) — matches the kernel
+  CNA/NVD vector; the initial 2026-07-27 assessment rated it Moderate/7.0
+  (`AC:H`).
 - **EPSS**: 0.12% (percentile ~2.2%), as of 2026-07-31 (FIRST.org). Not
   in KEV.
 {{< /details >}}
