@@ -3,7 +3,7 @@ title: "OVSwrap — Open vSwitch datapath overflow"
 description: "Linux kernel Open vSwitch datapath integer/buffer overflow (CVE-2026-64531, OVSwrap) — unprivileged local privilege escalation — distro patch status tracker"
 layout: "single"
 date: 2026-07-29
-lastmod: 2026-08-01
+lastmod: 2026-08-02
 cover:
   image: "ovswrap-tracker.png"
   alt: "OVSwrap — Linux kernel Open vSwitch datapath overflow tracker"
@@ -107,10 +107,10 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Proxmox VE | 9 (6.14 old) | 6.14.11-9-pve | — | — | :x: Vulnerable — no cherry-pick |
 | Proxmox VE | 8 (default) | 6.8.12-39-pve | 6.8.12-39 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | Proxmox VE | 8 (6.14 opt-in) | 6.14.11-9-bpo12-pve | — | — | :x: Vulnerable — no cherry-pick |
-| NixOS | Unstable | 6.18.40 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
+| NixOS | Unstable | 6.18.41 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | 26.05 | 6.18.40 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
-| Rocky Linux | 10 | 6.12.0-211.40.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
-| Rocky Linux | 9 | 5.14.0-687.31.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
+| Rocky Linux | 10 | 6.12.0-211.42.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
+| Rocky Linux | 9 | 5.14.0-687.33.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux | 8 | 4.18.0-553.148.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
 | Amazon Linux | 2023 (default) | 6.1.176-223.369 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (kernel6.12) | 6.12.94-123.192 | — | — | :x: Vulnerable — no ALAS yet |
@@ -382,8 +382,8 @@ reproduced. Most readers never need it.
     `bookworm-6.14` changelog carries no cherry-pick — vulnerable.
 - **NixOS** (via `kernels-org.json` and the `linux_default` alias at
   each channel's `git-revision` pin, `~/src/nixos/nixpkgs`) — default
-  `linuxPackages` (`linux_6_18`) on nixos-unstable and nixos-26.05 at
-  `6.18.40`, a fixed release — fixed.
+  `linuxPackages` (`linux_6_18`) is `6.18.41` on nixos-unstable and
+  `6.18.40` on nixos-26.05, both fixed releases — fixed.
 - **Rocky / RHEL family** (via the Red Hat CSAF/VEX record and the
   Rocky BaseOS repodata; the hydra securitydata API still returns 404
   for this CVE):
@@ -391,9 +391,9 @@ reproduced. Most readers never need it.
     (and `kernel-rt`) *known_affected* with no remediation available;
     RHEL 8 (and 7) *known_not_affected*, justification
     *vulnerable_code_not_present*.
-  - Rocky 10 — BaseOS kernel `6.12.0-211.40.1.el10_2`; RHEL 10
+  - Rocky 10 — BaseOS kernel `6.12.0-211.42.1.el10_2`; RHEL 10
     affected, no RHSA — vulnerable.
-  - Rocky 9 — `5.14.0-687.31.1.el9_8`; RHEL 9 affected (the 5.14 fork
+  - Rocky 9 — `5.14.0-687.33.1.el9_8`; RHEL 9 affected (the 5.14 fork
     carries the cap removal by backport), no RHSA — vulnerable.
   - Rocky 8 — `4.18.0-553.148.1.el8_10`; RHEL 8 not affected — not
     affected.
