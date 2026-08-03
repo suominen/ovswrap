@@ -3,7 +3,7 @@ title: "OVSwrap — Open vSwitch datapath overflow"
 description: "Linux kernel Open vSwitch datapath integer/buffer overflow (CVE-2026-64531, OVSwrap) — unprivileged local privilege escalation — distro patch status tracker"
 layout: "single"
 date: 2026-07-29
-lastmod: 2026-08-02
+lastmod: 2026-08-03
 cover:
   image: "ovswrap-tracker.png"
   alt: "OVSwrap — Linux kernel Open vSwitch datapath overflow tracker"
@@ -25,7 +25,7 @@ cover:
 | Discoverer | [Asim Manizada][writeup] (who also authored the upstream fix) |
 | Public disclosure | 2026-07-28 ([oss-security][oss]) |
 | Public PoC | [manizada/OVSwrap][poc] (ships a BPF mitigation) |
-| KEV / EPSS / CVSS | Kernel CNA and NVD: CVSS 3.1 **7.8 HIGH** (`AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H`, NVD status *Received*); Red Hat revised its rating on 2026-07-31 to **Important**, CVSS 3.1 **7.8 HIGH** (same vector) — up from an initial **Moderate**, CVSS 3.1 **7.0** (`AC:H`) at disclosure; EPSS **0.12%** (percentile ~2%, 2026-07-31); not in KEV |
+| KEV / EPSS / CVSS | Kernel CNA and NVD: CVSS 3.1 **7.8 HIGH** (`AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H`, NVD status *Received*); Red Hat revised its rating on 2026-07-31 to **Important**, CVSS 3.1 **7.8 HIGH** (same vector) — up from an initial **Moderate**, CVSS 3.1 **7.0** (`AC:H`) at disclosure; EPSS **0.13%** (percentile ~2.9%, 2026-08-02); not in KEV |
 | Reachability | Needs the OVS **kernel datapath** in use, **conntrack/FTP-helper** actions, and — for an unprivileged trigger — **unprivileged user namespaces** enabled |
 {.summary}
 
@@ -87,7 +87,7 @@ per-distribution detail in the sections that follow. *First fixed* and
 
 | Distribution | Release | Current kernel | First fixed | Fixed since | Status |
 |---|---|---|---|---|---|
-| Linux kernel | mainline | 7.2-rc5 | 7.2-rc4 | 2026-07-19 | :white_check_mark: Fixed — carries `3f1f75536668` |
+| Linux kernel | mainline | 7.2-rc6 | 7.2-rc4 | 2026-07-19 | :white_check_mark: Fixed — carries `3f1f75536668` |
 | Linux kernel | 7.1.x | 7.1.5 | 7.1.5 | 2026-07-24 | :white_check_mark: Fixed |
 | Linux kernel | 7.0.x | 7.0.14 | — | — | :x: Vulnerable — EOL without the fix |
 | Linux kernel | 6.18.x | 6.18.41 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed — LTS |
@@ -108,7 +108,7 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Proxmox VE | 8 (default) | 6.8.12-39-pve | 6.8.12-39 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | Proxmox VE | 8 (6.14 opt-in) | 6.14.11-9-bpo12-pve | — | — | :x: Vulnerable — no cherry-pick |
 | NixOS | Unstable | 6.18.41 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
-| NixOS | 26.05 | 6.18.40 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
+| NixOS | 26.05 | 6.18.41 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | Rocky Linux | 10 | 6.12.0-211.42.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux | 9 | 5.14.0-687.33.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux | 8 | 4.18.0-553.148.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
@@ -382,8 +382,8 @@ reproduced. Most readers never need it.
     `bookworm-6.14` changelog carries no cherry-pick — vulnerable.
 - **NixOS** (via `kernels-org.json` and the `linux_default` alias at
   each channel's `git-revision` pin, `~/src/nixos/nixpkgs`) — default
-  `linuxPackages` (`linux_6_18`) is `6.18.41` on nixos-unstable and
-  `6.18.40` on nixos-26.05, both fixed releases — fixed.
+  `linuxPackages` (`linux_6_18`) is `6.18.41` on both nixos-unstable
+  and nixos-26.05, a fixed release — fixed.
 - **Rocky / RHEL family** (via the Red Hat CSAF/VEX record and the
   Rocky BaseOS repodata; the hydra securitydata API still returns 404
   for this CVE):
@@ -415,7 +415,7 @@ reproduced. Most readers never need it.
   (`CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H`) — matches the kernel
   CNA/NVD vector; the initial 2026-07-27 assessment rated it Moderate/7.0
   (`AC:H`).
-- **EPSS**: 0.12% (percentile ~2.2%), as of 2026-07-31 (FIRST.org). Not
+- **EPSS**: 0.13% (percentile ~2.9%), as of 2026-08-02 (FIRST.org). Not
   in KEV.
 {{< /details >}}
 
