@@ -3,7 +3,7 @@ title: "OVSwrap — Open vSwitch datapath overflow"
 description: "Linux kernel Open vSwitch datapath integer/buffer overflow (CVE-2026-64531, OVSwrap) — unprivileged local privilege escalation — distro patch status tracker"
 layout: "single"
 date: 2026-07-29
-lastmod: 2026-08-03
+lastmod: 2026-08-04
 cover:
   image: "ovswrap-tracker.png"
   alt: "OVSwrap — Linux kernel Open vSwitch datapath overflow tracker"
@@ -88,15 +88,15 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Distribution | Release | Current kernel | First fixed | Fixed since | Status |
 |---|---|---|---|---|---|
 | Linux kernel | mainline | 7.2-rc6 | 7.2-rc4 | 2026-07-19 | :white_check_mark: Fixed — carries `3f1f75536668` |
-| Linux kernel | 7.1.x | 7.1.5 | 7.1.5 | 2026-07-24 | :white_check_mark: Fixed |
+| Linux kernel | 7.1.x | 7.1.6 | 7.1.5 | 2026-07-24 | :white_check_mark: Fixed |
 | Linux kernel | 7.0.x | 7.0.14 | — | — | :x: Vulnerable — EOL without the fix |
-| Linux kernel | 6.18.x | 6.18.41 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed — LTS |
-| Linux kernel | 6.12.x | 6.12.100 | 6.12.97 | 2026-07-24 | :white_check_mark: Fixed — LTS |
-| Linux kernel | 6.6.x | 6.6.147 | 6.6.145 | 2026-07-24 | :white_check_mark: Fixed — LTS |
+| Linux kernel | 6.18.x | 6.18.42 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed — LTS |
+| Linux kernel | 6.12.x | 6.12.101 | 6.12.97 | 2026-07-24 | :white_check_mark: Fixed — LTS |
+| Linux kernel | 6.6.x | 6.6.148 | 6.6.145 | 2026-07-24 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 6.1.x | 6.1.180 | 6.1.178 | 2026-07-24 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 5.15.x | 5.15.213 | 5.15.212 | 2026-07-24 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 5.10.x | 5.10.262 | — | — | :heavy_minus_sign: Not affected — predates the introducing commit |
-| Debian | sid (unstable) | 7.1.5-1 | 7.1.5-1 | 2026-07-27 | :white_check_mark: Fixed |
+| Debian | sid (unstable) | 7.1.6-1 | 7.1.5-1 | 2026-07-27 | :white_check_mark: Fixed |
 | Debian | forky (testing) | 7.1.3-1 | — | — | :x: Vulnerable |
 | Debian | 13 (trixie) | 6.12.100-1 | 6.12.100-1 | 2026-07-31 | :white_check_mark: Fixed |
 | Debian | 12 (bookworm) | 6.1.177-1 | — | — | :x: Vulnerable |
