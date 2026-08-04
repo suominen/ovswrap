@@ -101,7 +101,7 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Debian | 13 (trixie) | 6.12.100-1 | 6.12.100-1 | 2026-07-31 | :white_check_mark: Fixed |
 | Debian | 12 (bookworm) | 6.1.177-1 | — | — | :x: Vulnerable |
 | Debian | 11 (bullseye, LTS) | 5.10.259-1 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
-| Debian | 11 (linux-6.1 opt-in) | 6.1.177-1~deb11u1 | — | — | :x: Vulnerable |
+| Debian | 11 (6.1 opt-in) | 6.1.177-1~deb11u1 | — | — | :x: Vulnerable |
 | Proxmox VE | 9 (default) | 7.0.14-8-pve | 7.0.14-8 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | Proxmox VE | 9 (6.17 old) | 6.17.13-21-pve | 6.17.13-21 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | Proxmox VE | 9 (6.14 old) | 6.14.11-9-pve | — | — | :x: Vulnerable — no cherry-pick |
@@ -113,8 +113,8 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Rocky Linux | 9 | 5.14.0-687.33.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux | 8 | 4.18.0-553.148.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
 | Amazon Linux | 2023 (default) | 6.1.176-223.369 | — | — | :x: Vulnerable — no ALAS yet |
-| Amazon Linux | 2023 (kernel6.12) | 6.12.94-123.192 | — | — | :x: Vulnerable — no ALAS yet |
-| Amazon Linux | 2023 (kernel6.18) | 6.18.38-76.139 | — | — | :x: Vulnerable — no ALAS yet |
+| Amazon Linux | 2023 (6.12 opt-in) | 6.12.94-123.192 | — | — | :x: Vulnerable — no ALAS yet |
+| Amazon Linux | 2023 (6.18 opt-in) | 6.18.38-76.139 | — | — | :x: Vulnerable — no ALAS yet |
 {.distros}
 
 ### Linux kernel
@@ -137,8 +137,9 @@ unpatched.
 Debian is affected only in the suites whose kernel carries the 2025 cap
 removal. **bullseye** (LTS) ships the 5.10 series, which predates the
 regression — the security tracker records *"vulnerable code not present"* —
-so its default kernel is **not affected**, while its opt-in `linux-6.1`
-kernel *is* in-window and still needs the fix. **bookworm** and **forky**
+so its default kernel is **not affected**, while its opt-in 6.1 kernel
+(the `linux-6.1` source package, bookworm's kernel rebuilt for bullseye)
+*is* in-window and still needs the fix. **bookworm** and **forky**
 are in-window and below their series' fixed release, so they remain
 vulnerable pending a security upload; **trixie** and **sid** already carry
 the fix. Debian has shipped unprivileged user namespaces **enabled** by
@@ -188,8 +189,8 @@ per-release verdicts and has no separate row.
 
 No ALAS has been issued for this CVE yet, so every AL2023 kernel stream
 remains vulnerable pending an Amazon cherry-pick. The *default* row is
-the plain `kernel` package (a 6.1-series stream); `kernel6.12` and
-`kernel6.18` are the opt-in streams.
+the plain `kernel` package (a 6.1-series stream); the 6.12 and 6.18
+opt-in rows are the `kernel6.12` and `kernel6.18` packages.
 
 ## Detection
 

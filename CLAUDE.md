@@ -139,7 +139,11 @@ in *Status* as the emoji **plus a one-word verdict** and an optional
 short note after an em dash (`:white_check_mark: Fixed — DSA-…`,
 `:x: Vulnerable — no ALAS yet`); longer caveats go in the `###` prose.
 Label NixOS channels in the **Release** column in friendly form
-(`Unstable`, `26.05`).  Row and list ordering: releases **descending**
+(`Unstable`, `26.05`).  Label opt-in/alternate kernel rows by their
+kernel *series*, uniformly `<release> (<series> opt-in)` — `11 (6.1
+opt-in)`, `2023 (6.12 opt-in)` — and introduce the underlying package
+name (`linux-6.1`, `kernel6.12`) in the `###` prose, never in the
+Release cell.  Row and list ordering: releases **descending**
 within a distribution; within a release the default kernel row first,
 then live opt-in/alternate series rows **ascending**, then superseded
 (`old`) series rows **descending** — like releases, old series are
@@ -152,9 +156,10 @@ after** the table (no blank line between).
 Amazon rows are **one per AL2023 kernel stream** — label the default
 stream's row `2023 (default)` (it is the plain `kernel` package,
 currently 6.1 — named in the `### Amazon Linux` prose, not the table)
-and each opt-in stream by its package name (`2023 (kernel6.12)`); keep
-every supported stream (default + opt-in) as its own row, and add a
-row when Amazon ships a new stream.  **AL2 has no rows**: it reached end of support on
+and each opt-in stream by its series (`2023 (6.12 opt-in)` — the
+`kernel6.12` package, named in the prose); keep every supported stream
+(default + opt-in) as its own row, and add a row when Amazon ships a
+new stream.  **AL2 has no rows**: it reached end of support on
 2026-06-30 — before this tracker existed — so it is covered collectively
 in the `### Amazon Linux` prose (its 4.14 stream predates the regression;
 its 5.10/5.15 extras streams would need the same window check, but no ALAS
@@ -163,14 +168,14 @@ remains supported and is polled as usual.
 
 Debian suites get one row for the **default** `linux` kernel and, where
 one exists, a separate row per opt-in alternative kernel package (e.g.
-bullseye's `linux-6.1`, the bookworm 6.1 kernel rebuilt for bullseye —
-row `11 (linux-6.1 opt-in)`).  Note the split this bug creates: bullseye's
-**default** 5.10 kernel is *not affected* (predates the regression), while
-its **opt-in** 6.1 kernel *is* in-window — the two rows carry opposite
-verdicts.  An opt-in row's verdict never flips the default row's.  The
-same default-plus-variant row pattern applies to Proxmox
-(`proxmox-kernel-*` series), with two wrinkles: a default row is
-labelled plain `9 (default)` — its series is visible in *Current
+bullseye's `linux-6.1` source package, the bookworm 6.1 kernel rebuilt
+for bullseye — row `11 (6.1 opt-in)`).  Note the split this bug
+creates: bullseye's **default** 5.10 kernel is *not affected* (predates
+the regression), while its **opt-in** 6.1 kernel *is* in-window — the
+two rows carry opposite verdicts.  An opt-in row's verdict never flips
+the default row's.  The same default-plus-variant row pattern applies
+to Proxmox (`proxmox-kernel-*` series), with two wrinkles: a default
+row is labelled plain `9 (default)` — its series is visible in *Current
 kernel* and named in the prose — and there is a third Release label:
 PVE opt-in kernels are previews of the next default (per the Proxmox
 forum announcements), so series get superseded — a former default or
@@ -202,8 +207,8 @@ when a row actually flips — its kernel reaches a fixed upstream release
 `3f1f75536668` backport / cherry-pick.  A Current-kernel bump that stays
 inside the vulnerable window without the backport moves the *Current
 kernel* cell and **nothing else**.  (A `:heavy_minus_sign: Not affected`
-row does not flip on a version bump either — only a rebase onto a newer, in-window kernel series would put it
-back in scope.)
+row does not flip on a version bump either — only a rebase onto a
+newer, in-window kernel series would put it back in scope.)
 
 **A default-kernel-series switch is always recordable.** PVE moves its
 default series during a release's lifetime (`proxmox-default-kernel`
