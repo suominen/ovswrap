@@ -97,14 +97,14 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Linux kernel | 5.10.x | 5.10.262 | — | — | :heavy_minus_sign: Not affected — predates the introducing commit |
 | Debian | sid (unstable) | 7.1.6-1 | 7.1.5-1 | 2026-07-27 | :white_check_mark: Fixed |
 | Debian | forky (testing) | 7.1.3-1 | — | — | :x: Vulnerable |
-| Debian | 13 (trixie) | 6.12.100-1 | 6.12.100-1 | 2026-07-31 | :white_check_mark: Fixed |
-| Debian | 12 (bookworm) | 6.1.177-1 | — | — | :x: Vulnerable |
-| Debian | 11 (bullseye, LTS) | 5.10.259-1 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
+| Debian | 13 (trixie) | 6.12.100-1 | 6.12.100-1 | 2026-07-31 | :white_check_mark: Fixed — DSA-6405-1 |
+| Debian | 12 (bookworm) | 6.1.180-1 | — | — | :x: Vulnerable |
+| Debian | 11 (bullseye, LTS) | 5.10.262-1 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
 | Debian | 11 (6.1 opt-in) | 6.1.177-1~deb11u1 | — | — | :x: Vulnerable |
 | Proxmox VE | 9 (default) | 7.0.14-8-pve | 7.0.14-8 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | Proxmox VE | 9 (6.17 old) | 6.17.13-21-pve | 6.17.13-21 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | Proxmox VE | 8 (default) | 6.8.12-39-pve | 6.8.12-39 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
-| NixOS | Unstable | 6.18.41 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
+| NixOS | Unstable | 6.18.42 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | 26.05 | 6.18.41 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | Rocky Linux | 10 | 6.12.0-211.42.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux | 9 | 5.14.0-687.33.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
@@ -361,11 +361,16 @@ reproduced. Most readers never need it.
     `7.1.5-1`; *Fixed since* 2026-07-27, the version's `first_seen` in
     snapshot.debian.org.
   - testing/forky — `7.1.3-1`, in-window and below 7.1.5 — vulnerable.
-  - stable/trixie — `6.12.100-1` (trixie-security) carries the fix —
-    fixed. *First fixed* `6.12.100-1`; *Fixed since* 2026-07-31, the
-    version's `first_seen` in snapshot.debian.org.
-  - oldstable/bookworm — `6.1.177-1`, below the 6.1.178 fix — vulnerable.
-  - LTS/bullseye default — `5.10.259-1`; the tracker notes *"Vulnerable
+  - stable/trixie — `6.12.100-1` (trixie-security) carries the fix,
+    shipped as **DSA-6405-1** — fixed. *First fixed* `6.12.100-1`;
+    *Fixed since* 2026-07-31, the version's `first_seen` in
+    snapshot.debian.org.
+  - oldstable/bookworm — `6.1.180-1` (bookworm-security, orig tarball
+    rebased to upstream 6.1.180); the tracker still marks it
+    *vulnerable* with no `fixed_version` recorded for this suite, so
+    the rebase past upstream's 6.1.178 fix point does not by itself
+    mean the fix shipped — vulnerable per the tracker.
+  - LTS/bullseye default — `5.10.262-1`; the tracker notes *"Vulnerable
     code not present"* (5.10 predates `a1e64addf3ff`) — not affected.
   - LTS/bullseye opt-in `linux-6.1` — `6.1.177-1~deb11u1`, in-window and
     below 6.1.178 — vulnerable (window-derived; the tracker carries no
@@ -388,8 +393,8 @@ reproduced. Most readers never need it.
     (`proxmox-kernel-meta` 2.0.1 in that repo's changelog).
 - **NixOS** (via `kernels-org.json` and the `linux_default` alias at
   each channel's `git-revision` pin, `~/src/nixos/nixpkgs`) — default
-  `linuxPackages` (`linux_6_18`) is `6.18.41` on both nixos-unstable
-  and nixos-26.05, a fixed release — fixed.
+  `linuxPackages` (`linux_6_18`) is `6.18.42` on nixos-unstable and
+  `6.18.41` on nixos-26.05, both fixed releases — fixed.
 - **Rocky / RHEL family** (via the Red Hat CSAF/VEX record and the
   Rocky BaseOS repodata; the hydra securitydata API still returns 404
   for this CVE):
