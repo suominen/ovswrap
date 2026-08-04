@@ -58,10 +58,11 @@ run, but the only thing you should leave behind is the edited tracker
    and only need revisiting if a distro rebases onto a newer, in-window
    kernel series.)
 
-   Note on git.kernel.org: cgit HTML pages (any URL ending in /log/,
-   /tree/, /commit/, etc.) are Anubis-gated and WebFetch hits the no-JS
-   challenge. Use the persistent local kernel clones — already refreshed by
-   the wrapper, inspect via the `origin/...` remote-tracking refs:
+   Note on kernel.org: cgit HTML pages (any URL ending in /log/, /tree/,
+   /commit/, etc.) and lore.kernel.org (mailing-list search) are
+   Anubis-gated and WebFetch hits the no-JS challenge. Use the persistent
+   local kernel clones — already refreshed by the wrapper, inspect via
+   the `origin/...` remote-tracking refs:
 
      ~/src/linux/stable   — stable/linux.git
      ~/src/linux/net      — netdev "net" tree (openvswitch fixes land here first)
