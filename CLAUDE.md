@@ -183,7 +183,15 @@ an opt-in overtaken by a newer one is labelled `old` (`9 (6.17 old)`).
 Keep an `old` row (hosts still run it), but expect no more updates for
 it: Proxmox discontinues updates for superseded series after a short
 transition tail, and every such series is EOL on kernel.org, so an
-in-window vulnerable `old` row will likely never flip.  Don't add upstream
+in-window vulnerable `old` row will likely never flip.  However, a
+release, stream, or kernel series that was already **dead before the
+tracker existed** — its updates ended before the disclosure — gets
+**no** row at all, anywhere in the table (the AL2 and upstream-7.0.y
+treatment): its permanent verdict is one sentence in the relevant
+`###` prose.  This is why the 6.14 series (superseded as PVE 9's
+default 2025-11-11; last builds on `trixie-6.14` and `bookworm-6.14`,
+including PVE 8's opt-in rebuild, dated 2026-05-15) has no rows —
+don't re-add them.  Don't add upstream
 `Linux kernel` rows for series that appear in the table only because
 PVE ships them (6.8, 6.11, 6.14, 6.17) — the upstream-EOL / not-affected
 fact is one sentence in the `### Proxmox VE` prose.  Niche variants (e.g.
