@@ -629,11 +629,27 @@ the published version, and flip to `:white_check_mark: Fixed` only when
 the fixed build appears in `pve-no-subscription`.
 
 Whether an in-window Proxmox kernel carries the fix tracks its Ubuntu
-series, not Debian's.  To confirm a cherry-pick, read the packaging
-changelog in Proxmox's kernel git, where Proxmox lists every security
-cherry-pick by name/CVE.  The cgit HTML may be gated, so read it from the
-shared local clone at `~/src/proxmox/pve-kernel` via its `origin/...` refs
-— the wrapper refreshes it each run:
+series, not Debian's.  **A named cherry-pick is not the only fix
+path.**  For a series Ubuntu still maintains, the fix can arrive
+silently inside an `update sources to Ubuntu-<base>` rebase, with no
+CVE-named changelog line — the ghostlock tracker misread PVE 8's
+default 6.8 as vulnerable for a month by grepping the changelog for
+the CVE alone.  On every run, for each live in-window series, take
+the newest `update sources to Ubuntu-*` base version from the
+changelog and compare it against Ubuntu's fixed version for that
+series in the Ubuntu CVE tracker
+(`https://ubuntu.com/security/cves/CVE-2026-64531.json` — the
+`packages[].statuses[]` entries; `released` + version).  Base ≥
+Ubuntu's fixed version ⇒ the PVE build carries the fix.  Kernel.org
+EOL for the series is irrelevant here — Ubuntu keeps fixing series
+long after upstream EOL.  Named cherry-picks remain the signal only
+for series Ubuntu no longer fixes (superseded/`old` series, and
+opt-ins whose Ubuntu HWE source is EOL).  To confirm a cherry-pick,
+read the packaging changelog in Proxmox's kernel git, where Proxmox
+lists every security cherry-pick by name/CVE.  The cgit HTML may be
+gated, so read it from the shared local clone at
+`~/src/proxmox/pve-kernel` via its `origin/...` refs — the wrapper
+refreshes it each run:
 
 ```
 git -C ~/src/proxmox/pve-kernel show origin/master:debian/changelog
