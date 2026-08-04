@@ -89,7 +89,6 @@ per-distribution detail in the sections that follow. *First fixed* and
 |---|---|---|---|---|---|
 | Linux kernel | mainline | 7.2-rc6 | 7.2-rc4 | 2026-07-19 | :white_check_mark: Fixed — carries `3f1f75536668` |
 | Linux kernel | 7.1.x | 7.1.6 | 7.1.5 | 2026-07-24 | :white_check_mark: Fixed |
-| Linux kernel | 7.0.x | 7.0.14 | — | — | :x: Vulnerable — EOL without the fix |
 | Linux kernel | 6.18.x | 6.18.42 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 6.12.x | 6.12.101 | 6.12.97 | 2026-07-24 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 6.6.x | 6.6.148 | 6.6.145 | 2026-07-24 | :white_check_mark: Fixed — LTS |
@@ -122,10 +121,11 @@ per-distribution detail in the sections that follow. *First fixed* and
 The fix was committed to the `net` tree on 2026-07-11 and reached Linus
 in **v7.2-rc4** (tagged 2026-07-19); the kernel CNA backported it across
 the maintained in-window stable lines on 2026-07-24 (per-branch versions
-in the table). 7.0.y reached end of life at 7.0.14 while in-window and
-never received the backport; the short-lived 6.13.y line was in-window
-from 6.13.8 and is likewise permanently unpatched, but no tracked
-distribution ships it, so it has no row.
+in the table). Two in-window lines ended upstream without the backport
+and have no row: 7.0.y reached end of life at 7.0.14 on 2026-06-27,
+before the disclosure (Proxmox's Ubuntu-derived 7.0 kernel lives on
+and has its own row), and the short-lived 6.13.y line, in-window from
+6.13.8, which no tracked distribution ships.
 
 Because the cap removal was backported into stable only as far down as the
 5.15 line, the **5.10.y line and earlier never received it** and are
