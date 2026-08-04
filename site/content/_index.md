@@ -103,9 +103,7 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Debian | 11 (6.1 opt-in) | 6.1.177-1~deb11u1 | — | — | :x: Vulnerable |
 | Proxmox VE | 9 (default) | 7.0.14-8-pve | 7.0.14-8 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | Proxmox VE | 9 (6.17 old) | 6.17.13-21-pve | 6.17.13-21 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
-| Proxmox VE | 9 (6.14 old) | 6.14.11-9-pve | — | — | :x: Vulnerable — no cherry-pick |
 | Proxmox VE | 8 (default) | 6.8.12-39-pve | 6.8.12-39 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
-| Proxmox VE | 8 (6.14 opt-in) | 6.14.11-9-bpo12-pve | — | — | :x: Vulnerable — no cherry-pick |
 | NixOS | Unstable | 6.18.41 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | 26.05 | 6.18.41 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | Rocky Linux | 10 | 6.12.0-211.42.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
@@ -160,14 +158,20 @@ the upstream 6.8 base predates the regression, Proxmox's Ubuntu-derived
 carried the vulnerable code in, so a pre-6.14 Proxmox series cannot be
 assumed safe by version alone.
 
-The 6.14 series (PVE 9's superseded default and its PVE 8 opt-in
-rebuild) received no cherry-pick and remains vulnerable. An *opt-in*
-series is Proxmox's preview of a likely next default; an *old* series
-is a superseded default or an opt-in overtaken by a newer one. Proxmox
-stops updating superseded series after a short transition tail — 6.17
-caught the fix inside that tail, but 6.14 appears past it, and every
-such series is end-of-life upstream, so a fix there could only arrive
-as a late Proxmox cherry-pick.
+An *opt-in* series is Proxmox's preview of a likely next default; an
+*old* series is a superseded default or an opt-in overtaken by a newer
+one. Proxmox stops updating superseded series after a short transition
+tail — 6.17 caught the fix inside that tail — and every such series is
+end-of-life upstream, so a fix there could only arrive as a late
+Proxmox cherry-pick.
+
+The 6.14 series has no row: its updates had already ended before the
+disclosure. PVE 9 launched with 6.14 as its default and superseded it
+with 6.17 on 2025-11-11; the last 6.14 builds — PVE 9's 6.14.11-9 and
+PVE 8's opt-in rebuild 6.14.11-9~bpo12+1 — date to 2026-05-15, with no
+OVSwrap cherry-pick then or since. A host still booted into any 6.14
+kernel is in-window and permanently vulnerable; move to the release's
+current default kernel.
 
 ### Rocky Linux / RHEL family
 
@@ -373,14 +377,15 @@ reproduced. Most readers never need it.
     LPE* — fixed.
   - PVE 9 6.17 (old) — 6.17.13-21 published; changelog entry
     (2026-07-28) names the CVE — fixed.
-  - PVE 9 6.14 (old) — 6.14.11-9 unchanged; the `trixie-6.14` changelog
-    carries no OVSwrap cherry-pick — vulnerable.
   - PVE 8 default 6.8 — 6.8.12-39 published; changelog entry
     (2026-07-28) names the CVE — fixed. Proxmox thereby treats the
     Ubuntu-derived 6.8 kernel as affected although the upstream 6.8
     base predates the regression.
-  - PVE 8 6.14 opt-in — 6.14.11-9~bpo12+1 unchanged; the
-    `bookworm-6.14` changelog carries no cherry-pick — vulnerable.
+  - 6.14 series (no rows) — the `trixie-6.14` and `bookworm-6.14`
+    branches last built 6.14.11-9 / 6.14.11-9~bpo12+1 on 2026-05-15,
+    before the disclosure, and carry no OVSwrap cherry-pick; the
+    series was superseded as PVE 9's default on 2025-11-11
+    (`proxmox-kernel-meta` 2.0.1 in that repo's changelog).
 - **NixOS** (via `kernels-org.json` and the `linux_default` alias at
   each channel's `git-revision` pin, `~/src/nixos/nixpkgs`) — default
   `linuxPackages` (`linux_6_18`) is `6.18.41` on both nixos-unstable
