@@ -232,7 +232,10 @@ Each run:
   7.1.y / 6.18.y / 6.12.y / 6.6.y / 6.1.y / 5.15.y already carry the fix
   (7.1.5 / 6.18.40 / 6.12.97 / 6.6.145 / 6.1.178 / 5.15.212, all tagged
   2026-07-24).  5.10.y and earlier are not affected — do not expect them
-  to flip.
+  to flip.  7.0.y and 6.13.y died in-window unpatched (EOL before the
+  disclosure) — covered in the `### Linux kernel` prose, no rows; do not
+  re-add them.  (PVE 9's Ubuntu-derived 7.0 kernel is a distro row, not
+  an upstream one.)
 - For a distro row, re-pull the distro's **kernel** version and update
   *Current kernel*.  If an in-window kernel reaches its branch's
   first-fixed release **or** a distro advisory ships the `3f1f75536668`
