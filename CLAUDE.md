@@ -186,9 +186,12 @@ transition tail, and every such series is EOL on kernel.org, so an
 in-window vulnerable `old` row will likely never flip.  However, a
 release, stream, or kernel series that was already **dead before the
 tracker existed** — its updates ended before the disclosure — gets
-**no** row at all, anywhere in the table (the AL2 and upstream-7.0.y
-treatment): its permanent verdict is one sentence in the relevant
-`###` prose.  This is why the 6.14 series (superseded as PVE 9's
+**no** row at all, anywhere in the table, if it died *without* the
+fix (the AL2 and upstream-7.0.y treatment): its permanent `:x:`
+verdict is one sentence in the relevant `###` prose.  (A series that
+died already *fixed* keeps its row — the ghostlock tracker's upstream
+7.0.x row is such an exception; no ovswrap row qualifies.)  This is
+why the 6.14 series (superseded as PVE 9's
 default 2025-11-11; last builds on `trixie-6.14` and `bookworm-6.14`,
 including PVE 8's opt-in rebuild, dated 2026-05-15) has no rows —
 don't re-add them.  Don't add upstream
