@@ -3,7 +3,7 @@ title: "OVSwrap — Open vSwitch datapath overflow"
 description: "Linux kernel Open vSwitch datapath integer/buffer overflow (CVE-2026-64531, OVSwrap) — unprivileged local privilege escalation — distro patch status tracker"
 layout: "single"
 date: 2026-07-29
-lastmod: 2026-08-04
+lastmod: 2026-08-05
 cover:
   image: "ovswrap-tracker.png"
   alt: "OVSwrap — Linux kernel Open vSwitch datapath overflow tracker"
@@ -105,13 +105,13 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Proxmox VE | 9 (6.17 old) | 6.17.13-21-pve | 6.17.13-21 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | Proxmox VE | 8 (default) | 6.8.12-39-pve | 6.8.12-39 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | NixOS | Unstable | 6.18.42 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
-| NixOS | 26.05 | 6.18.41 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
+| NixOS | 26.05 | 6.18.42 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | Rocky Linux | 10 | 6.12.0-211.42.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux | 9 | 5.14.0-687.33.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
-| Rocky Linux | 8 | 4.18.0-553.148.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
-| Amazon Linux | 2023 (default) | 6.1.176-223.369 | — | — | :x: Vulnerable — no ALAS yet |
-| Amazon Linux | 2023 (6.12 opt-in) | 6.12.94-123.192 | — | — | :x: Vulnerable — no ALAS yet |
-| Amazon Linux | 2023 (6.18 opt-in) | 6.18.38-76.139 | — | — | :x: Vulnerable — no ALAS yet |
+| Rocky Linux | 8 | 4.18.0-553.150.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
+| Amazon Linux | 2023 (default) | 6.1.177-224.371 | — | — | :x: Vulnerable — no ALAS yet |
+| Amazon Linux | 2023 (6.12 opt-in) | 6.12.95-124.187 | — | — | :x: Vulnerable — no ALAS yet |
+| Amazon Linux | 2023 (6.18 opt-in) | 6.18.39-79.141 | — | — | :x: Vulnerable — no ALAS yet |
 {.distros}
 
 ### Linux kernel
@@ -393,8 +393,8 @@ reproduced. Most readers never need it.
     (`proxmox-kernel-meta` 2.0.1 in that repo's changelog).
 - **NixOS** (via `kernels-org.json` and the `linux_default` alias at
   each channel's `git-revision` pin, `~/src/nixos/nixpkgs`) — default
-  `linuxPackages` (`linux_6_18`) is `6.18.42` on nixos-unstable and
-  `6.18.41` on nixos-26.05, both fixed releases — fixed.
+  `linuxPackages` (`linux_6_18`) is `6.18.42` on both nixos-unstable and
+  nixos-26.05, a fixed release — fixed.
 - **Rocky / RHEL family** (via the Red Hat CSAF/VEX record and the
   Rocky BaseOS repodata; the hydra securitydata API still returns 404
   for this CVE):
@@ -406,14 +406,14 @@ reproduced. Most readers never need it.
     affected, no RHSA — vulnerable.
   - Rocky 9 — `5.14.0-687.33.1.el9_8`; RHEL 9 affected (the 5.14 fork
     carries the cap removal by backport), no RHSA — vulnerable.
-  - Rocky 8 — `4.18.0-553.148.1.el8_10`; RHEL 8 not affected — not
+  - Rocky 8 — `4.18.0-553.150.1.el8_10`; RHEL 8 not affected — not
     affected.
 - **Amazon Linux** (via the AL2023 core repodata — `primary.xml.gz` for
   versions, `updateinfo.xml.gz` for advisories):
   - `updateinfo.xml.gz` has no entry for CVE-2026-64531 — no ALAS; all
     three streams stay vulnerable.
-  - Streams (default `kernel` 6.1.176-223.369; `kernel6.12`
-    6.12.94-123.192; `kernel6.18` 6.18.38-76.139) are in-window and
+  - Streams (default `kernel` 6.1.177-224.371; `kernel6.12`
+    6.12.95-124.187; `kernel6.18` 6.18.39-79.141) are in-window and
     below their series' fixed releases.
 
 #### Scoring
