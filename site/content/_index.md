@@ -3,7 +3,7 @@ title: "OVSwrap — Open vSwitch datapath overflow"
 description: "Linux kernel Open vSwitch datapath integer/buffer overflow (CVE-2026-64531, OVSwrap) — unprivileged local privilege escalation — distro patch status tracker"
 layout: "single"
 date: 2026-07-29
-lastmod: 2026-08-06
+lastmod: 2026-08-07
 cover:
   image: "ovswrap-tracker.png"
   alt: "OVSwrap — Linux kernel Open vSwitch datapath overflow tracker"
@@ -88,27 +88,27 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Distribution | Release | Current kernel | First fixed | Fixed since | Status |
 |---|---|---|---|---|---|
 | Linux kernel | mainline | 7.2-rc6 | 7.2-rc4 | 2026-07-19 | :white_check_mark: Fixed — carries `3f1f75536668` |
-| Linux kernel | 7.1.x | 7.1.6 | 7.1.5 | 2026-07-24 | :white_check_mark: Fixed |
-| Linux kernel | 6.18.x | 6.18.42 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed — LTS |
+| Linux kernel | 7.1.x | 7.1.7 | 7.1.5 | 2026-07-24 | :white_check_mark: Fixed |
+| Linux kernel | 6.18.x | 6.18.43 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 6.12.x | 6.12.101 | 6.12.97 | 2026-07-24 | :white_check_mark: Fixed — LTS |
-| Linux kernel | 6.6.x | 6.6.148 | 6.6.145 | 2026-07-24 | :white_check_mark: Fixed — LTS |
-| Linux kernel | 6.1.x | 6.1.180 | 6.1.178 | 2026-07-24 | :white_check_mark: Fixed — LTS |
-| Linux kernel | 5.15.x | 5.15.213 | 5.15.212 | 2026-07-24 | :white_check_mark: Fixed — LTS |
-| Linux kernel | 5.10.x | 5.10.262 | — | — | :heavy_minus_sign: Not affected — predates the introducing commit |
+| Linux kernel | 6.6.x | 6.6.149 | 6.6.145 | 2026-07-24 | :white_check_mark: Fixed — LTS |
+| Linux kernel | 6.1.x | 6.1.181 | 6.1.178 | 2026-07-24 | :white_check_mark: Fixed — LTS |
+| Linux kernel | 5.15.x | 5.15.214 | 5.15.212 | 2026-07-24 | :white_check_mark: Fixed — LTS |
+| Linux kernel | 5.10.x | 5.10.263 | — | — | :heavy_minus_sign: Not affected — predates the introducing commit |
 | Debian | sid (unstable) | 7.1.6-1 | 7.1.5-1 | 2026-07-27 | :white_check_mark: Fixed |
 | Debian | forky (testing) | 7.1.3-1 | — | — | :x: Vulnerable |
-| Debian | 13 (trixie) | 6.12.100-1 | 6.12.100-1 | 2026-07-31 | :white_check_mark: Fixed — DSA-6405-1 |
+| Debian | 13 (trixie) | 6.12.101-1 | 6.12.100-1 | 2026-07-31 | :white_check_mark: Fixed — DSA-6405-1 |
 | Debian | 12 (bookworm) | 6.1.180-1 | 6.1.180-1 | 2026-08-04 | :white_check_mark: Fixed — DLA-4720-1 |
 | Debian | 11 (bullseye, LTS) | 5.10.262-1 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
-| Debian | 11 (6.1 opt-in) | 6.1.177-1~deb11u1 | — | — | :x: Vulnerable |
-| Proxmox VE | 9 (default) | 7.0.14-8-pve | 7.0.14-8 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
+| Debian | 11 (6.1 opt-in) | 6.1.180-1~deb11u1 | 6.1.180-1~deb11u1 | 2026-08-06 | :white_check_mark: Fixed |
+| Proxmox VE | 9 (default) | 7.0.14-9-pve | 7.0.14-8 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | Proxmox VE | 9 (6.17 old) | 6.17.13-21-pve | 6.17.13-21 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | Proxmox VE | 8 (default) | 6.8.12-39-pve | 6.8.12-39 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | NixOS | Unstable | 6.18.42 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | 26.05 | 6.18.42 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | Rocky Linux | 10 | 6.12.0-211.43.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux | 9 | 5.14.0-687.34.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
-| Rocky Linux | 8 | 4.18.0-553.150.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
+| Rocky Linux | 8 | 4.18.0-553.151.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
 | Amazon Linux | 2023 (default) | 6.1.177-224.371 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (6.12 opt-in) | 6.12.95-124.187 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (6.18 opt-in) | 6.18.39-79.141 | — | — | :x: Vulnerable — no ALAS yet |
@@ -137,9 +137,12 @@ removal. **bullseye** (LTS) ships the 5.10 series, which predates the
 regression — the security tracker records *"vulnerable code not present"* —
 so its default kernel is **not affected**, while its opt-in 6.1 kernel
 (the `linux-6.1` source package, bookworm's kernel rebuilt for bullseye)
-*is* in-window and still needs the fix. **forky** is in-window and below
-its series' fixed release, so it remains vulnerable pending a security
-upload; **bookworm**, **trixie**, and **sid** already carry the fix.
+*is* in-window — it now carries the fix, having been rebased onto
+upstream 6.1.180 (above the 6.1.x branch's 6.1.178 first-fixed release)
+with no CVE-specific advisory. **forky** is in-window and below its
+series' fixed release, so it remains vulnerable pending a security
+upload; **bookworm**, **trixie**, **sid**, and bullseye's opt-in
+`linux-6.1` already carry the fix.
 Debian has shipped unprivileged user namespaces **enabled** by
 default since bullseye (`kernel.unprivileged_userns_clone=1`) and does not
 apply Ubuntu's AppArmor userns restriction, so on a stock Debian host the
@@ -371,9 +374,11 @@ reproduced. Most readers never need it.
     snapshot.debian.org.
   - LTS/bullseye default — `5.10.262-1`; the tracker notes *"Vulnerable
     code not present"* (5.10 predates `a1e64addf3ff`) — not affected.
-  - LTS/bullseye opt-in `linux-6.1` — `6.1.177-1~deb11u1`, in-window and
-    below 6.1.178 — vulnerable (window-derived; the tracker carries no
-    `linux-6.1` record for this CVE).
+  - LTS/bullseye opt-in `linux-6.1` — `6.1.180-1~deb11u1`, rebased onto
+    upstream 6.1.180 (≥ 6.1.178, the 6.1.x branch's first-fixed release)
+    — fixed (window-derived; the tracker carries no `linux-6.1` record
+    for this CVE). *First fixed* `6.1.180-1~deb11u1`; *Fixed since*
+    2026-08-06, the version's `first_seen` in snapshot.debian.org.
 - **Proxmox VE** (via the `pve-no-subscription` `Packages.gz` indexes
   and the `pve-kernel` packaging changelogs, `~/src/proxmox/pve-kernel`):
   - PVE 9 default 7.0 — `proxmox-kernel-7.0` 7.0.14-8 published; its
@@ -405,7 +410,7 @@ reproduced. Most readers never need it.
     affected, no RHSA — vulnerable.
   - Rocky 9 — `5.14.0-687.34.1.el9_8`; RHEL 9 affected (the 5.14 fork
     carries the cap removal by backport), no RHSA — vulnerable.
-  - Rocky 8 — `4.18.0-553.150.1.el8_10`; RHEL 8 not affected — not
+  - Rocky 8 — `4.18.0-553.151.1.el8_10`; RHEL 8 not affected — not
     affected.
 - **Amazon Linux** (via the AL2023 core repodata — `primary.xml.gz` for
   versions, `updateinfo.xml.gz` for advisories):
