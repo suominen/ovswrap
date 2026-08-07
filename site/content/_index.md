@@ -59,10 +59,10 @@ kernel-memory reads, and credential corruption for root.
 > *unprivileged* trigger — **unprivileged user namespaces** enabled, since
 > the OVS netlink API needs `CAP_NET_ADMIN` and a userns grants it inside
 > the namespace. Disabling unprivileged userns removes the unprivileged
-> path but not a caller that already holds `CAP_NET_ADMIN`. These are
-> reachability conditions recorded in prose, **not** verdict columns —
-> **only the kernel backport flips a verdict**, and a kernel below its
-> series' introducing commit is not affected at all.
+> path but not a caller that already holds `CAP_NET_ADMIN`. These
+> conditions narrow who can reach the bug but do not fix it — **only a
+> patched kernel does** — and a kernel below its series' introducing
+> commit is not affected at all.
 
 ## Vulnerable commit range
 
@@ -119,11 +119,12 @@ per-distribution detail in the sections that follow. *First fixed* and
 The fix was committed to the `net` tree on 2026-07-11 and reached Linus
 in **v7.2-rc4** (tagged 2026-07-19); the kernel CNA backported it across
 the maintained in-window stable lines on 2026-07-24 (per-branch versions
-in the table). Two in-window lines ended upstream without the backport
-and have no row: 7.0.y reached end of life at 7.0.14 on 2026-06-27,
-before the disclosure (Proxmox's Ubuntu-derived 7.0 kernel lives on
-and has its own row), and the short-lived 6.13.y line, in-window from
-6.13.8, which no tracked distribution ships.
+in the table). Two in-window lines ended upstream without the backport:
+7.0.y reached end of life at 7.0.14 on 2026-06-27, before the
+disclosure (Proxmox's Ubuntu-derived 7.0 kernel lives on and is tracked
+under Proxmox VE below), and the short-lived 6.13.y line, in-window from
+6.13.8, which no tracked distribution ships. A host on either is
+permanently vulnerable.
 
 Because the cap removal was backported into stable only as far down as the
 5.15 line, the **5.10.y line and earlier never received it** and are
@@ -168,7 +169,7 @@ tail — 6.17 caught the fix inside that tail — and every such series is
 end-of-life upstream, so a fix there could only arrive as a late
 Proxmox cherry-pick.
 
-The 6.14 series has no row: its updates had already ended before the
+The 6.14 series is no longer updated — its last builds predate the
 disclosure. PVE 9 launched with 6.14 as its default and superseded it
 with 6.17 on 2025-11-11; the last 6.14 builds — PVE 9's 6.14.11-9 and
 PVE 8's opt-in rebuild 6.14.11-9~bpo12+1 — date to 2026-05-15, with no
@@ -390,7 +391,7 @@ reproduced. Most readers never need it.
     (2026-07-28) names the CVE — fixed. Proxmox thereby treats the
     Ubuntu-derived 6.8 kernel as affected although the upstream 6.8
     base predates the regression.
-  - 6.14 series (no rows) — the `trixie-6.14` and `bookworm-6.14`
+  - 6.14 series — the `trixie-6.14` and `bookworm-6.14`
     branches last built 6.14.11-9 / 6.14.11-9~bpo12+1 on 2026-05-15,
     before the disclosure, and carry no OVSwrap cherry-pick; the
     series was superseded as PVE 9's default on 2025-11-11
