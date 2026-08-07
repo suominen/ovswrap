@@ -90,25 +90,25 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Linux kernel | mainline | 7.2-rc6 | 7.2-rc4 | 2026-07-19 | :white_check_mark: Fixed — carries `3f1f75536668` |
 | Linux kernel | 7.1.x | 7.1.7 | 7.1.5 | 2026-07-24 | :white_check_mark: Fixed |
 | Linux kernel | 6.18.x | 6.18.43 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed — LTS |
-| Linux kernel | 6.12.x | 6.12.101 | 6.12.97 | 2026-07-24 | :white_check_mark: Fixed — LTS |
-| Linux kernel | 6.6.x | 6.6.149 | 6.6.145 | 2026-07-24 | :white_check_mark: Fixed — LTS |
-| Linux kernel | 6.1.x | 6.1.181 | 6.1.178 | 2026-07-24 | :white_check_mark: Fixed — LTS |
-| Linux kernel | 5.15.x | 5.15.214 | 5.15.212 | 2026-07-24 | :white_check_mark: Fixed — LTS |
-| Linux kernel | 5.10.x | 5.10.263 | — | — | :heavy_minus_sign: Not affected — predates the introducing commit |
-| Debian | sid (unstable) | 7.1.6-1 | 7.1.5-1 | 2026-07-27 | :white_check_mark: Fixed |
-| Debian | forky (testing) | 7.1.3-1 | — | — | :x: Vulnerable |
+| Linux kernel | 6.12.x | 6.12.102 | 6.12.97 | 2026-07-24 | :white_check_mark: Fixed — LTS |
+| Linux kernel | 6.6.x | 6.6.150 | 6.6.145 | 2026-07-24 | :white_check_mark: Fixed — LTS |
+| Linux kernel | 6.1.x | 6.1.182 | 6.1.178 | 2026-07-24 | :white_check_mark: Fixed — LTS |
+| Linux kernel | 5.15.x | 5.15.215 | 5.15.212 | 2026-07-24 | :white_check_mark: Fixed — LTS |
+| Linux kernel | 5.10.x | 5.10.264 | — | — | :heavy_minus_sign: Not affected — predates the introducing commit |
+| Debian | sid (unstable) | 7.1.7-1 | 7.1.5-1 | 2026-07-27 | :white_check_mark: Fixed |
+| Debian | forky (testing) | 7.1.6-1 | 7.1.6-1 | 2026-08-04 | :white_check_mark: Fixed |
 | Debian | 13 (trixie) | 6.12.101-1 | 6.12.100-1 | 2026-07-31 | :white_check_mark: Fixed — DSA-6405-1 |
 | Debian | 12 (bookworm) | 6.1.180-1 | 6.1.180-1 | 2026-08-04 | :white_check_mark: Fixed — DLA-4720-1 |
 | Debian | 11 (bullseye, LTS) | 5.10.262-1 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
 | Debian | 11 (6.1 opt-in) | 6.1.180-1~deb11u1 | 6.1.180-1~deb11u1 | 2026-08-06 | :white_check_mark: Fixed |
-| Proxmox VE | 9 (default) | 7.0.14-9-pve | 7.0.14-8 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
+| Proxmox VE | 9 (default) | 7.0.14-11-pve | 7.0.14-8 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | Proxmox VE | 9 (6.17 old) | 6.17.13-21-pve | 6.17.13-21 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
-| Proxmox VE | 8 (default) | 6.8.12-39-pve | 6.8.12-39 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
+| Proxmox VE | 8 (default) | 6.8.12-41-pve | 6.8.12-39 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | NixOS | Unstable | 6.18.42 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | 26.05 | 6.18.42 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | Rocky Linux | 10 | 6.12.0-211.43.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
-| Rocky Linux | 9 | 5.14.0-687.34.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
-| Rocky Linux | 8 | 4.18.0-553.151.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
+| Rocky Linux | 9 | 5.14.0-687.36.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
+| Rocky Linux | 8 | 4.18.0-553.153.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
 | Amazon Linux | 2023 (default) | 6.1.177-224.371 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (6.12 opt-in) | 6.12.95-124.187 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (6.18 opt-in) | 6.18.39-79.141 | — | — | :x: Vulnerable — no ALAS yet |
@@ -140,10 +140,10 @@ so its default kernel is **not affected**, while its opt-in 6.1 kernel
 (the `linux-6.1` source package, bookworm's kernel rebuilt for bullseye)
 *is* in-window — it now carries the fix, having been rebased onto
 upstream 6.1.180 (above the 6.1.x branch's 6.1.178 first-fixed release)
-with no CVE-specific advisory. **forky** is in-window and below its
-series' fixed release, so it remains vulnerable pending a security
-upload; **bookworm**, **trixie**, **sid**, and bullseye's opt-in
-`linux-6.1` already carry the fix.
+with no CVE-specific advisory. **bookworm**, **trixie**, **sid**,
+**forky**, and bullseye's opt-in `linux-6.1` all carry the fix; forky
+picked it up via `7.1.6-1`, having skipped straight past the `7.1.5-1`
+first-fixed upload.
 Debian has shipped unprivileged user namespaces **enabled** by
 default since bullseye (`kernel.unprivileged_userns_clone=1`) and does not
 apply Ubuntu's AppArmor userns restriction, so on a stock Debian host the
@@ -186,12 +186,17 @@ arrived on 2026-07-27: **EL8 (4.18) is not affected** (*vulnerable code
 not present*), while **EL9 (5.14) and EL10 (6.12.0) are affected** with
 no fix available yet. EL9 carries the cap removal as a backport despite
 its base predating the regression — the same pattern as Proxmox's
-Ubuntu-derived 6.8 kernel. Rocky rebuilds RHEL's kernels unchanged, so
-these verdicts carry over; the affected rows flip when Rocky rebuilds
-the fixing RHSA (AlmaLinux, typically the fastest rebuild, is the
-leading indicator). Oracle Linux and CloudLinux OS track the RHEL
-determination. The niche `kernel-rt` real-time variant carries the same
-per-release verdicts and has no separate row.
+Ubuntu-derived 6.8 kernel. Red Hat shipped a first fix on 2026-08-06
+(RHSA-2026:51603/51604), but only for the RHEL 9.2 Extended Update
+Support stream (`kernel-5.14.0-284.186.1.el9_2`) — a pinned older
+minor release Rocky does not rebuild; the general RHEL 9 and RHEL 10
+streams Rocky tracks remain unfixed. Rocky rebuilds RHEL's kernels
+unchanged, so these verdicts carry over; the affected rows flip when
+Rocky rebuilds the fixing RHSA for its tracked stream (AlmaLinux,
+typically the fastest rebuild, is the leading indicator). Oracle Linux
+and CloudLinux OS track the RHEL determination. The niche `kernel-rt`
+real-time variant carries the same per-release verdicts and has no
+separate row.
 
 ### Amazon Linux
 
@@ -364,7 +369,11 @@ reproduced. Most readers never need it.
   - unstable/sid — `7.1.5-1` carries the fix — fixed. *First fixed*
     `7.1.5-1`; *Fixed since* 2026-07-27, the version's `first_seen` in
     snapshot.debian.org.
-  - testing/forky — `7.1.3-1`, in-window and below 7.1.5 — vulnerable.
+  - testing/forky — carries the fix via `7.1.6-1` (the security tracker
+    lists `7.1.5-1` as forky's fixed_version, but `7.1.5-1` never
+    migrated to testing; `7.1.6-1` is the first forky upload at/above
+    it) — fixed. *First fixed* `7.1.6-1`; *Fixed since* 2026-08-04, the
+    version's `first_seen` in snapshot.debian.org.
   - stable/trixie — `6.12.100-1` (trixie-security) carries the fix,
     shipped as **DSA-6405-1** — fixed. *First fixed* `6.12.100-1`;
     *Fixed since* 2026-07-31, the version's `first_seen` in
@@ -406,12 +415,17 @@ reproduced. Most readers never need it.
   - Red Hat's assessment, released 2026-07-27: RHEL 9 and 10 `kernel`
     (and `kernel-rt`) *known_affected* with no remediation available;
     RHEL 8 (and 7) *known_not_affected*, justification
-    *vulnerable_code_not_present*.
+    *vulnerable_code_not_present*. Revised 2026-08-06 with a
+    `vendor_fix` remediation (RHSA-2026:51603 `kernel`, RHSA-2026:51604
+    `kernel-rt`), but scoped only to the RHEL 9.2 EUS product stream
+    (`...284.186.1.el9_2`) — the general RHEL 9 and RHEL 10 streams
+    Rocky rebuilds stay `known_affected` with `none_available`.
   - Rocky 10 — BaseOS kernel `6.12.0-211.43.1.el10_2`; RHEL 10
     affected, no RHSA — vulnerable.
-  - Rocky 9 — `5.14.0-687.34.1.el9_8`; RHEL 9 affected (the 5.14 fork
-    carries the cap removal by backport), no RHSA — vulnerable.
-  - Rocky 8 — `4.18.0-553.151.1.el8_10`; RHEL 8 not affected — not
+  - Rocky 9 — `5.14.0-687.36.1.el9_8`; RHEL 9's general stream affected
+    (the 5.14 fork carries the cap removal by backport), no RHSA —
+    vulnerable.
+  - Rocky 8 — `4.18.0-553.153.1.el8_10`; RHEL 8 not affected — not
     affected.
 - **Amazon Linux** (via the AL2023 core repodata — `primary.xml.gz` for
   versions, `updateinfo.xml.gz` for advisories):
