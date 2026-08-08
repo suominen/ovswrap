@@ -3,7 +3,7 @@ title: "OVSwrap — Open vSwitch datapath overflow"
 description: "Linux kernel Open vSwitch datapath integer/buffer overflow (CVE-2026-64531, OVSwrap) — unprivileged local privilege escalation — distro patch status tracker"
 layout: "single"
 date: 2026-07-29
-lastmod: 2026-08-07
+lastmod: 2026-08-08
 cover:
   image: "ovswrap-tracker.png"
   alt: "OVSwrap — Linux kernel Open vSwitch datapath overflow tracker"
@@ -99,6 +99,7 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Debian | forky (testing) | 7.1.6-1 | 7.1.6-1 | 2026-08-04 | :white_check_mark: Fixed |
 | Debian | 13 (trixie) | 6.12.101-1 | 6.12.100-1 | 2026-07-31 | :white_check_mark: Fixed — DSA-6405-1 |
 | Debian | 12 (bookworm) | 6.1.180-1 | 6.1.180-1 | 2026-08-04 | :white_check_mark: Fixed — DLA-4720-1 |
+| Debian | 12 (6.12 opt-in) | 6.12.100-1~deb12u1 | 6.12.100-1~deb12u1 | 2026-08-04 | :white_check_mark: Fixed |
 | Debian | 11 (bullseye, LTS) | 5.10.262-1 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
 | Debian | 11 (6.1 opt-in) | 6.1.180-1~deb11u1 | 6.1.180-1~deb11u1 | 2026-08-06 | :white_check_mark: Fixed |
 | Proxmox VE | 9 (default) | 7.0.14-11-pve | 7.0.14-8 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
@@ -106,7 +107,7 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Proxmox VE | 8 (default) | 6.8.12-41-pve | 6.8.12-39 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | NixOS | Unstable | 6.18.42 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | 26.05 | 6.18.42 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
-| Rocky Linux | 10 | 6.12.0-211.43.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
+| Rocky Linux | 10 | 6.12.0-211.44.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux | 9 | 5.14.0-687.36.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux | 8 | 4.18.0-553.153.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
 | Amazon Linux | 2023 (default) | 6.1.177-224.371 | — | — | :x: Vulnerable — no ALAS yet |
@@ -140,10 +141,14 @@ so its default kernel is **not affected**, while its opt-in 6.1 kernel
 (the `linux-6.1` source package, bookworm's kernel rebuilt for bullseye)
 *is* in-window — it now carries the fix, having been rebased onto
 upstream 6.1.180 (above the 6.1.x branch's 6.1.178 first-fixed release)
-with no CVE-specific advisory. **bookworm**, **trixie**, **sid**,
-**forky**, and bullseye's opt-in `linux-6.1` all carry the fix; forky
-picked it up via `7.1.6-1`, having skipped straight past the `7.1.5-1`
-first-fixed upload.
+with no CVE-specific advisory. **bookworm** gained a second, newer
+opt-in kernel of its own: `linux-6.12` (the trixie 6.12 kernel rebuilt
+for bookworm, mirroring bullseye's `linux-6.1` pattern) entered
+`bookworm-security` already carrying the fix at `6.12.100-1~deb12u1`,
+so it has never been vulnerable in this suite. **bookworm**, **trixie**,
+**sid**, **forky**, bullseye's opt-in `linux-6.1`, and bookworm's opt-in
+`linux-6.12` all carry the fix; forky picked it up via `7.1.6-1`, having
+skipped straight past the `7.1.5-1` first-fixed upload.
 Debian has shipped unprivileged user namespaces **enabled** by
 default since bullseye (`kernel.unprivileged_userns_clone=1`) and does not
 apply Ubuntu's AppArmor userns restriction, so on a stock Debian host the
@@ -187,10 +192,12 @@ not present*), while **EL9 (5.14) and EL10 (6.12.0) are affected** with
 no fix available yet. EL9 carries the cap removal as a backport despite
 its base predating the regression — the same pattern as Proxmox's
 Ubuntu-derived 6.8 kernel. Red Hat shipped a first fix on 2026-08-06
-(RHSA-2026:51603/51604), but only for the RHEL 9.2 Extended Update
-Support stream (`kernel-5.14.0-284.186.1.el9_2`) — a pinned older
-minor release Rocky does not rebuild; the general RHEL 9 and RHEL 10
-streams Rocky tracks remain unfixed. Rocky rebuilds RHEL's kernels
+(RHSA-2026:51603/51604) for the RHEL 9.2 Extended Update Support
+stream (`kernel-5.14.0-284.186.1.el9_2`), followed on 2026-08-07 by a
+second EUS-only fix for RHEL 9.4 (RHSA-2026:51746,
+`kernel-5.14.0-427.143.1.el9_4`). Both are pinned older minor releases
+Rocky does not rebuild; the general RHEL 9 and RHEL 10 streams Rocky
+tracks remain unfixed. Rocky rebuilds RHEL's kernels
 unchanged, so these verdicts carry over; the affected rows flip when
 Rocky rebuilds the fixing RHSA for its tracked stream (AlmaLinux,
 typically the fastest rebuild, is the leading indicator). Oracle Linux
@@ -389,6 +396,11 @@ reproduced. Most readers never need it.
     — fixed (window-derived; the tracker carries no `linux-6.1` record
     for this CVE). *First fixed* `6.1.180-1~deb11u1`; *Fixed since*
     2026-08-06, the version's `first_seen` in snapshot.debian.org.
+  - oldstable/bookworm opt-in `linux-6.12` — new source package, only
+    ever published as `6.12.100-1~deb12u1` in `bookworm-security`,
+    resolved status per the tracker — fixed on entry. *First fixed*
+    `6.12.100-1~deb12u1`; *Fixed since* 2026-08-04, the version's
+    `first_seen` in snapshot.debian.org.
 - **Proxmox VE** (via the `pve-no-subscription` `Packages.gz` indexes
   and the `pve-kernel` packaging changelogs, `~/src/proxmox/pve-kernel`):
   - PVE 9 default 7.0 — `proxmox-kernel-7.0` 7.0.14-8 published; its
