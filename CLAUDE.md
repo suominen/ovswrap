@@ -61,7 +61,8 @@ that's likely why — re-read before assuming stale state.
 │   └── go.mod, go.sum                        # Hugo Modules — pulls PaperMod theme
 ├── scripts/                                  # auto-update agent: prompt + driver
 │   ├── auto-update                           # wrapper invoked by the systemd timer
-│   └── auto-update-prompt.txt                # prompt fed to headless Claude
+│   ├── auto-update-prompt.txt                # prompt fed to headless Claude
+│   └── nixos-first-shipped                   # channel + commit -> first-published date
 ├── systemd/                                  # user-level timer + service units
 │   ├── ovswrap-tracker-update.service        # runs scripts/auto-update
 │   └── ovswrap-tracker-update.timer          # twice daily
@@ -660,9 +661,22 @@ git -C ~/src/nixos/nixpkgs log --format='%H %cI %s' -S'6.18.40' origin/master --
 
 **A channel row's *Fixed since* must be derived, never stamped from the
 branch date.**  It is the date the channel first published a release
-whose revision contains its branch's fixing commit — use the shared
-template's `package/scripts/nixos-first-shipped <channel> <commit>`,
-which resolves this from the `nix-releases` bucket.  Pass the *master*
+whose revision contains its branch's fixing commit.  Resolve it from the
+`nix-releases` bucket with the installed helper:
+
+```
+~/src/ovswrap/scripts/nixos-first-shipped <channel> <commit>
+```
+
+**Invoke it by that absolute primary-checkout path, never as
+`./scripts/…` from the auto-update worktree.**  `scripts/` is one of the
+guarded paths: the agent can commit to the `auto-update` branch, so the
+worktree copy is untrusted code, and the wrapper's guard only compares it
+against `origin/main` once at start-up.  Running the primary checkout's
+copy keeps what executes to what you have reviewed and merged — the same
+reason `ExecStart` points at the primary checkout's wrapper.  The
+worktree copy exists only so the file is under version control; don't run
+it.  Pass the *master*
 commit for `nixos-unstable`, `nixos-unstable-small`, and
 `nixpkgs-unstable`, and the *release-26.05* commit for `nixos-26.05` and
 `nixos-26.05-small` — a release channel ships its own branch's backport,
