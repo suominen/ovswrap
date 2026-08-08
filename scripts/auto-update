@@ -162,5 +162,5 @@ exec claude -p \
   --settings '{"permissions":{"allow":["Read","Edit","WebFetch","Bash(date:*)","Bash(rm:*)","Bash(curl:*)","Bash(zcat:*)","Bash(gunzip:*)","Bash(git add:*)","Bash(git commit:*)","Bash(git diff:*)","Bash(git log:*)","Bash(git show:*)","Bash(git status:*)","Bash(git describe:*)"],"deny":["Edit(./scripts/**)","Edit(./.claude/**)"]}}' \
   --output-format text \
   --no-session-persistence \
-  --max-budget-usd 5 \
+  --max-budget-usd 10 \
   < "${CODE}/scripts/auto-update-prompt.txt"
