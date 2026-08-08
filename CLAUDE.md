@@ -149,7 +149,14 @@ in *Status* as the emoji **plus a one-word verdict** and an optional
 short note after an em dash (`:white_check_mark: Fixed — DSA-…`,
 `:x: Vulnerable — no ALAS yet`); longer caveats go in the `###` prose.
 Label NixOS channels in the **Release** column in friendly form
-(`Unstable`, `26.05`).  Label opt-in/alternate kernel rows by their
+(`Unstable`, `26.05`).  Where a channel has variants, keep the friendly
+base and add the variant in parentheses — `Unstable (small)`,
+`Unstable (nixpkgs)`, `26.05 (small)`; this is the one place the
+`<release> (<x>)` parenthetical carries something other than a kernel
+series, so introduce the real channel name (`nixos-unstable-small`,
+`nixpkgs-unstable`) in the `###` prose.  The nixpkgs `master` row is
+labelled with the bare branch name, since it is a branch and not a
+channel.  Label opt-in/alternate kernel rows by their
 kernel *series*, uniformly `<release> (<series> opt-in)` — `11 (6.1
 opt-in)`, `2023 (6.12 opt-in)` — and introduce the underlying package
 name (`linux-6.1`, `kernel6.12`) in the `###` prose, never in the
@@ -604,7 +611,19 @@ the default is the newest or oldest LTS — it has moved before.  Whatever
 the default resolves to, decide its verdict by the window: a default on a
 fixed in-window release is fixed; on a pre-6.14 series it is not affected.
 
-Tracked channels: `nixos-26.05` (default), `nixos-unstable`.
+Tracked refs: the two ungated git branches `master` and `release-26.05`,
+plus the five channels `nixos-unstable`, `nixos-unstable-small`,
+`nixpkgs-unstable`, `nixos-26.05`, `nixos-26.05-small`.  Rows are ordered
+by **propagation**, not by release: the branch a fix lands on first, then
+the branch it is backported to, then the channels that republish them,
+keeping each `-small` variant next to its sibling rather than splitting
+the pair by date.  *Fixed since* then comes out non-decreasing across the
+branch-to-channel boundary, which is a free check that no channel
+predates its branch.  (This mirrors the shared tracker template's
+`DESIGN.md` row-order rule and its `CLAUDE-package-sources.md` NixOS
+recipe; keep this section in step with those.)
+
+The five channels are read from their `git-revision` pins:
 
 ```
 rev=$(curl -fsSL https://channels.nixos.org/<channel>/git-revision)
@@ -613,6 +632,55 @@ git -C ~/src/nixos/nixpkgs show "${rev}:pkgs/os-specific/linux/kernel/kernels-or
 
 `channels.nixos.org/<channel>/git-revision` returns a 302 — always pass
 `-L` to curl.  The wrapper refreshes the clone on every run.
+
+**The branch rows have no `git-revision` pin** — read them from the
+clone's remote-tracking refs instead:
+
+```
+git -C ~/src/nixos/nixpkgs show origin/master:pkgs/os-specific/linux/kernel/kernels-org.json
+```
+
+The branches are rows on purpose: ungated by Hydra, they carry the fix
+from the moment the commit lands, so they show where it sits before any
+channel publishes it — the NixOS analogue of the upstream `mainline` row,
+and what a flake input pinned to a bare `github:NixOS/nixpkgs` or to
+`release-26.05` actually follows.  Don't prune them as non-deployable
+refs.  A branch row's *Current kernel* tracks the `kernels-org.json`
+version, which moves only on a kernel bump, so the row does not churn
+with ordinary commit traffic.
+
+**A branch row's *Fixed since* is the commit date of the fixing commit**
+— nothing publishes an ungated branch, so there is no release date to
+use.  Find it by searching the branch for the bump that first reached the
+fixed release:
+
+```
+git -C ~/src/nixos/nixpkgs log --format='%H %cI %s' -S'6.18.40' origin/master -- pkgs/os-specific/linux/kernel/kernels-org.json
+```
+
+**A channel row's *Fixed since* must be derived, never stamped from the
+branch date.**  It is the date the channel first published a release
+whose revision contains its branch's fixing commit — use the shared
+template's `package/scripts/nixos-first-shipped <channel> <commit>`,
+which resolves this from the `nix-releases` bucket.  Pass the *master*
+commit for `nixos-unstable`, `nixos-unstable-small`, and
+`nixpkgs-unstable`, and the *release-26.05* commit for `nixos-26.05` and
+`nixos-26.05-small` — a release channel ships its own branch's backport,
+not master's commit.  These dates differ by days and are the whole point
+of the group: for this CVE they ran 2026-07-24 (branches) through
+2026-07-27 (`nixos-unstable`, the slowest).
+
+The three unstable channels are genuinely distinct and can hold different
+kernels: `nixos-unstable` is gated on a full NixOS jobset and can sit
+days behind `master`, `nixos-unstable-small` on a reduced jobset and
+leads, and `nixpkgs-unstable` is a separate channel — aimed at Nix users
+on other operating systems, so not gated on the NixOS tests — that a
+bare `nixpkgs` flake registry input resolves to by default (a user or
+system registry entry can override it).  Don't assert a ranking between
+the unstable channels beyond what the pins show: they routinely hold the
+same version.  The GitHub channel *branches* are updated to
+exactly the channel pins, so no separate check is needed for flake inputs
+pinned to a channel branch.
 
 ## Proxmox kernel version source
 
@@ -833,9 +901,11 @@ several distro sites are JS-rendered SPAs that don't render via WebFetch.
 - **Debian / Ubuntu / Proxmox VE:** the split-window cases live here —
   bullseye's 5.10 default is not affected while its 6.1 opt-in is in-window;
   PVE 8's 6.8/6.11 predate the bug while PVE 9's 6.14+ are in-window.
-- **NixOS:** decide the default `linuxPackages` verdict by its resolved
-  series against the window; a 6.18/6.12/6.6 default on a fixed release is
-  fixed.
+- **NixOS:** six refs are tracked, not one default — see *Local nixpkgs
+  clone for NixOS channel verification*.  Resolve `linux_default` at each
+  ref separately (it can differ between channels) and decide each
+  verdict by that series against the window; a 6.18/6.12/6.6 default on a
+  fixed release is fixed.
 - **Mitigation vs fix:** disabling unprivileged userns
   (`kernel.unprivileged_userns_clone=0` / `user.max_user_namespaces=0`) or
   the PoC's BPF filter both leave the kernel hole — record as `:warning:`

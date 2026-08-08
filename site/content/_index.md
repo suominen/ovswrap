@@ -3,7 +3,7 @@ title: "OVSwrap — Open vSwitch datapath overflow"
 description: "Linux kernel Open vSwitch datapath integer/buffer overflow (CVE-2026-64531, OVSwrap) — unprivileged local privilege escalation — distro patch status tracker"
 layout: "single"
 date: 2026-07-29
-lastmod: 2026-08-08
+lastmod: 2026-08-09
 cover:
   image: "ovswrap-tracker.png"
   alt: "OVSwrap — Linux kernel Open vSwitch datapath overflow tracker"
@@ -105,8 +105,13 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Proxmox VE | 9 (default) | 7.0.14-11-pve | 7.0.14-8 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | Proxmox VE | 9 (6.17 old) | 6.17.13-21-pve | 6.17.13-21 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | Proxmox VE | 8 (default) | 6.8.12-41-pve | 6.8.12-39 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
-| NixOS | Unstable | 6.18.42 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
-| NixOS | 26.05 | 6.18.43 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
+| NixOS | master | 6.18.43 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
+| NixOS | release-26.05 | 6.18.43 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
+| NixOS | Unstable | 6.18.42 | 6.18.40 | 2026-07-27 | :white_check_mark: Fixed |
+| NixOS | Unstable (small) | 6.18.43 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
+| NixOS | Unstable (nixpkgs) | 6.18.42 | 6.18.40 | 2026-07-26 | :white_check_mark: Fixed |
+| NixOS | 26.05 | 6.18.43 | 6.18.40 | 2026-07-26 | :white_check_mark: Fixed |
+| NixOS | 26.05 (small) | 6.18.43 | 6.18.40 | 2026-07-25 | :white_check_mark: Fixed |
 | Rocky Linux | 10 | 6.12.0-211.44.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux | 9 | 5.14.0-687.36.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux | 8 | 4.18.0-553.153.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
@@ -181,6 +186,32 @@ PVE 8's opt-in rebuild 6.14.11-9~bpo12+1 — date to 2026-05-15, with no
 OVSwrap cherry-pick then or since. A host still booted into any 6.14
 kernel is in-window and permanently vulnerable; move to the release's
 current default kernel.
+
+### NixOS
+
+Every tracked ref's default `linuxPackages` is `linux_6_18`, so all of
+them are fixed; they differ only in which point release they have
+reached. Kernel updates land on nixpkgs `master` first, and each channel
+publishes them once its Hydra jobset passes. A channel can therefore sit
+a few days behind `master`, and an unstable channel is not necessarily
+ahead of a release channel. The `-small` channels
+(`nixos-unstable-small`, `nixos-26.05-small`) are gated on a reduced
+jobset and pick up kernel updates fastest.
+
+The `master` and `release-26.05` rows are the git branches the fix lands
+on. They are not Hydra-gated, so they carry a kernel bump from the
+moment the commit lands — typically a day or three before a channel
+republishes it, which is what the *Fixed since* dates down the group
+show. They are development branches, not deployment targets.
+
+Flake inputs map onto these directly.
+`github:NixOS/nixpkgs/nixos-unstable` tracks the `nixos-unstable`
+channel — the GitHub channel branches are updated to exactly the
+published channel pins — and a bare `github:NixOS/nixpkgs` with no ref
+follows `master`. A bare `nixpkgs` registry input resolves by default to
+`nixpkgs-unstable`, which is a separate channel aimed at Nix users on
+other operating systems rather than at NixOS, so it is not gated on the
+NixOS tests and can hold a different kernel from `nixos-unstable`.
 
 ### Rocky Linux / RHEL family
 
@@ -418,9 +449,25 @@ reproduced. Most readers never need it.
     series was superseded as PVE 9's default on 2025-11-11
     (`proxmox-kernel-meta` 2.0.1 in that repo's changelog).
 - **NixOS** (via `kernels-org.json` and the `linux_default` alias at
-  each channel's `git-revision` pin, `~/src/nixos/nixpkgs`) — default
-  `linuxPackages` (`linux_6_18`) is `6.18.42` on nixos-unstable and
-  `6.18.43` on nixos-26.05, both fixed releases — fixed.
+  each channel's `git-revision` pin and at the branch tips,
+  `~/src/nixos/nixpkgs`):
+  - every tracked ref resolves `linux_default` to `linux_6_18`, so the
+    verdict turns only on which point release each has reached — all are
+    fixed releases.
+  - `master` carries 6.18.43; it reached 6.18.40 in `147b03448643`.
+  - `release-26.05` carries 6.18.43; it reached 6.18.40 in
+    `ea17fa586823`.
+  - nixos-unstable carries 6.18.42.
+  - nixos-unstable-small carries 6.18.43.
+  - nixpkgs-unstable carries 6.18.42.
+  - nixos-26.05 carries 6.18.43.
+  - nixos-26.05-small carries 6.18.43.
+  - each channel's *Fixed since* is the first published release whose
+    revision contains its branch's 6.18.40 commit, resolved from the
+    nix-releases bucket rather than stamped from the branch date.
+  - the GitHub channel branches match the channel pins exactly, so a
+    flake input pinned to a channel branch resolves to the same commit
+    as the corresponding row.
 - **Rocky / RHEL family** (via the Red Hat CSAF/VEX record and the
   Rocky BaseOS repodata; the hydra securitydata API still returns 404
   for this CVE):
