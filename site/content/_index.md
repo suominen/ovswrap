@@ -106,7 +106,7 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Proxmox VE | 9 (6.17 old) | 6.17.13-21-pve | 6.17.13-21 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | Proxmox VE | 8 (default) | 6.8.12-41-pve | 6.8.12-39 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | NixOS | Unstable | 6.18.42 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
-| NixOS | 26.05 | 6.18.42 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
+| NixOS | 26.05 | 6.18.43 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | Rocky Linux | 10 | 6.12.0-211.44.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux | 9 | 5.14.0-687.36.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux | 8 | 4.18.0-553.153.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
@@ -419,8 +419,8 @@ reproduced. Most readers never need it.
     (`proxmox-kernel-meta` 2.0.1 in that repo's changelog).
 - **NixOS** (via `kernels-org.json` and the `linux_default` alias at
   each channel's `git-revision` pin, `~/src/nixos/nixpkgs`) — default
-  `linuxPackages` (`linux_6_18`) is `6.18.42` on both nixos-unstable and
-  nixos-26.05, a fixed release — fixed.
+  `linuxPackages` (`linux_6_18`) is `6.18.42` on nixos-unstable and
+  `6.18.43` on nixos-26.05, both fixed releases — fixed.
 - **Rocky / RHEL family** (via the Red Hat CSAF/VEX record and the
   Rocky BaseOS repodata; the hydra securitydata API still returns 404
   for this CVE):
