@@ -107,7 +107,7 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Proxmox VE | 8 (default) | 6.8.12-41-pve | 6.8.12-39 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | NixOS | master | 6.18.43 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | release-26.05 | 6.18.43 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
-| NixOS | Unstable | 6.18.42 | 6.18.40 | 2026-07-27 | :white_check_mark: Fixed |
+| NixOS | Unstable | 6.18.43 | 6.18.40 | 2026-07-27 | :white_check_mark: Fixed |
 | NixOS | Unstable (small) | 6.18.43 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | Unstable (nixpkgs) | 6.18.42 | 6.18.40 | 2026-07-26 | :white_check_mark: Fixed |
 | NixOS | 26.05 | 6.18.43 | 6.18.40 | 2026-07-26 | :white_check_mark: Fixed |
@@ -457,7 +457,7 @@ reproduced. Most readers never need it.
   - `master` carries 6.18.43; it reached 6.18.40 in `147b03448643`.
   - `release-26.05` carries 6.18.43; it reached 6.18.40 in
     `ea17fa586823`.
-  - nixos-unstable carries 6.18.42.
+  - nixos-unstable carries 6.18.43.
   - nixos-unstable-small carries 6.18.43.
   - nixpkgs-unstable carries 6.18.42.
   - nixos-26.05 carries 6.18.43.
