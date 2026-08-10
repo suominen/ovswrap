@@ -3,7 +3,7 @@ title: "OVSwrap — Open vSwitch datapath overflow"
 description: "Linux kernel Open vSwitch datapath integer/buffer overflow (CVE-2026-64531, OVSwrap) — unprivileged local privilege escalation — distro patch status tracker"
 layout: "single"
 date: 2026-07-29
-lastmod: 2026-08-09
+lastmod: 2026-08-10
 cover:
   image: "ovswrap-tracker.png"
   alt: "OVSwrap — Linux kernel Open vSwitch datapath overflow tracker"
@@ -87,16 +87,16 @@ per-distribution detail in the sections that follow. *First fixed* and
 
 | Distribution | Release | Current kernel | First fixed | Fixed since | Status |
 |---|---|---|---|---|---|
-| Linux kernel | mainline | 7.2-rc6 | 7.2-rc4 | 2026-07-19 | :white_check_mark: Fixed — carries `3f1f75536668` |
-| Linux kernel | 7.1.x | 7.1.7 | 7.1.5 | 2026-07-24 | :white_check_mark: Fixed |
-| Linux kernel | 6.18.x | 6.18.43 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed — LTS |
-| Linux kernel | 6.12.x | 6.12.102 | 6.12.97 | 2026-07-24 | :white_check_mark: Fixed — LTS |
-| Linux kernel | 6.6.x | 6.6.150 | 6.6.145 | 2026-07-24 | :white_check_mark: Fixed — LTS |
+| Linux kernel | mainline | 7.2-rc7 | 7.2-rc4 | 2026-07-19 | :white_check_mark: Fixed — carries `3f1f75536668` |
+| Linux kernel | 7.1.x | 7.1.8 | 7.1.5 | 2026-07-24 | :white_check_mark: Fixed |
+| Linux kernel | 6.18.x | 6.18.44 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed — LTS |
+| Linux kernel | 6.12.x | 6.12.103 | 6.12.97 | 2026-07-24 | :white_check_mark: Fixed — LTS |
+| Linux kernel | 6.6.x | 6.6.151 | 6.6.145 | 2026-07-24 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 6.1.x | 6.1.182 | 6.1.178 | 2026-07-24 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 5.15.x | 5.15.215 | 5.15.212 | 2026-07-24 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 5.10.x | 5.10.264 | — | — | :heavy_minus_sign: Not affected — predates the introducing commit |
 | Debian | sid (unstable) | 7.1.7-1 | 7.1.5-1 | 2026-07-27 | :white_check_mark: Fixed |
-| Debian | forky (testing) | 7.1.6-1 | 7.1.6-1 | 2026-08-04 | :white_check_mark: Fixed |
+| Debian | forky (testing) | 7.1.7-1 | 7.1.6-1 | 2026-08-04 | :white_check_mark: Fixed |
 | Debian | 13 (trixie) | 6.12.101-1 | 6.12.100-1 | 2026-07-31 | :white_check_mark: Fixed — DSA-6405-1 |
 | Debian | 12 (bookworm) | 6.1.180-1 | 6.1.180-1 | 2026-08-04 | :white_check_mark: Fixed — DLA-4720-1 |
 | Debian | 12 (6.12 opt-in) | 6.12.100-1~deb12u1 | 6.12.100-1~deb12u1 | 2026-08-04 | :white_check_mark: Fixed |
@@ -105,8 +105,8 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Proxmox VE | 9 (default) | 7.0.14-11-pve | 7.0.14-8 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | Proxmox VE | 9 (6.17 old) | 6.17.13-21-pve | 6.17.13-21 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | Proxmox VE | 8 (default) | 6.8.12-41-pve | 6.8.12-39 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
-| NixOS | master | 6.18.43 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
-| NixOS | release-26.05 | 6.18.43 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
+| NixOS | master | 6.18.44 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
+| NixOS | release-26.05 | 6.18.44 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | Unstable | 6.18.43 | 6.18.40 | 2026-07-27 | :white_check_mark: Fixed |
 | NixOS | Unstable (small) | 6.18.43 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | Unstable (nixpkgs) | 6.18.42 | 6.18.40 | 2026-07-26 | :white_check_mark: Fixed |
