@@ -109,12 +109,12 @@ per-distribution detail in the sections that follow. *First fixed* and
 | NixOS | release-26.05 | 6.18.44 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | Unstable | 6.18.43 | 6.18.40 | 2026-07-27 | :white_check_mark: Fixed |
 | NixOS | Unstable (small) | 6.18.44 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
-| NixOS | Unstable (nixpkgs) | 6.18.43 | 6.18.40 | 2026-07-26 | :white_check_mark: Fixed |
+| NixOS | Unstable (nixpkgs) | 6.18.44 | 6.18.40 | 2026-07-26 | :white_check_mark: Fixed |
 | NixOS | 26.05 | 6.18.43 | 6.18.40 | 2026-07-26 | :white_check_mark: Fixed |
 | NixOS | 26.05 (small) | 6.18.44 | 6.18.40 | 2026-07-25 | :white_check_mark: Fixed |
 | Rocky Linux | 10 | 6.12.0-211.44.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux | 9 | 5.14.0-687.36.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
-| Rocky Linux | 8 | 4.18.0-553.153.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
+| Rocky Linux | 8 | 4.18.0-553.154.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
 | Amazon Linux | 2023 (default) | 6.1.177-224.371 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (6.12 opt-in) | 6.12.95-124.187 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (6.18 opt-in) | 6.18.39-79.141 | — | — | :x: Vulnerable — no ALAS yet |
@@ -459,7 +459,7 @@ reproduced. Most readers never need it.
     `ea17fa586823`.
   - nixos-unstable carries 6.18.43.
   - nixos-unstable-small carries 6.18.44.
-  - nixpkgs-unstable carries 6.18.43.
+  - nixpkgs-unstable carries 6.18.44.
   - nixos-26.05 carries 6.18.43.
   - nixos-26.05-small carries 6.18.44.
   - each channel's *Fixed since* is the first published release whose
@@ -484,7 +484,7 @@ reproduced. Most readers never need it.
   - Rocky 9 — `5.14.0-687.36.1.el9_8`; RHEL 9's general stream affected
     (the 5.14 fork carries the cap removal by backport), no RHSA —
     vulnerable.
-  - Rocky 8 — `4.18.0-553.153.1.el8_10`; RHEL 8 not affected — not
+  - Rocky 8 — `4.18.0-553.154.1.el8_10`; RHEL 8 not affected — not
     affected.
 - **Amazon Linux** (via the AL2023 core repodata — `primary.xml.gz` for
   versions, `updateinfo.xml.gz` for advisories):
