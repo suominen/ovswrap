@@ -3,7 +3,7 @@ title: "OVSwrap — Open vSwitch datapath overflow"
 description: "Linux kernel Open vSwitch datapath integer/buffer overflow (CVE-2026-64531, OVSwrap) — unprivileged local privilege escalation — distro patch status tracker"
 layout: "single"
 date: 2026-07-29
-lastmod: 2026-08-10
+lastmod: 2026-08-11
 cover:
   image: "ovswrap-tracker.png"
   alt: "OVSwrap — Linux kernel Open vSwitch datapath overflow tracker"
@@ -108,10 +108,10 @@ per-distribution detail in the sections that follow. *First fixed* and
 | NixOS | master | 6.18.44 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | release-26.05 | 6.18.44 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | Unstable | 6.18.43 | 6.18.40 | 2026-07-27 | :white_check_mark: Fixed |
-| NixOS | Unstable (small) | 6.18.43 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
-| NixOS | Unstable (nixpkgs) | 6.18.42 | 6.18.40 | 2026-07-26 | :white_check_mark: Fixed |
+| NixOS | Unstable (small) | 6.18.44 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
+| NixOS | Unstable (nixpkgs) | 6.18.43 | 6.18.40 | 2026-07-26 | :white_check_mark: Fixed |
 | NixOS | 26.05 | 6.18.43 | 6.18.40 | 2026-07-26 | :white_check_mark: Fixed |
-| NixOS | 26.05 (small) | 6.18.43 | 6.18.40 | 2026-07-25 | :white_check_mark: Fixed |
+| NixOS | 26.05 (small) | 6.18.44 | 6.18.40 | 2026-07-25 | :white_check_mark: Fixed |
 | Rocky Linux | 10 | 6.12.0-211.44.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux | 9 | 5.14.0-687.36.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux | 8 | 4.18.0-553.153.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
@@ -458,10 +458,10 @@ reproduced. Most readers never need it.
   - `release-26.05` carries 6.18.43; it reached 6.18.40 in
     `ea17fa586823`.
   - nixos-unstable carries 6.18.43.
-  - nixos-unstable-small carries 6.18.43.
-  - nixpkgs-unstable carries 6.18.42.
+  - nixos-unstable-small carries 6.18.44.
+  - nixpkgs-unstable carries 6.18.43.
   - nixos-26.05 carries 6.18.43.
-  - nixos-26.05-small carries 6.18.43.
+  - nixos-26.05-small carries 6.18.44.
   - each channel's *Fixed since* is the first published release whose
     revision contains its branch's 6.18.40 commit, resolved from the
     nix-releases bucket rather than stamped from the branch date.
