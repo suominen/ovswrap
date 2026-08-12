@@ -110,10 +110,10 @@ per-distribution detail in the sections that follow. *First fixed* and
 | NixOS | Unstable | 6.18.44 | 6.18.40 | 2026-07-27 | :white_check_mark: Fixed |
 | NixOS | Unstable (small) | 6.18.44 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | Unstable (nixpkgs) | 6.18.44 | 6.18.40 | 2026-07-26 | :white_check_mark: Fixed |
-| NixOS | 26.05 | 6.18.43 | 6.18.40 | 2026-07-26 | :white_check_mark: Fixed |
+| NixOS | 26.05 | 6.18.44 | 6.18.40 | 2026-07-26 | :white_check_mark: Fixed |
 | NixOS | 26.05 (small) | 6.18.44 | 6.18.40 | 2026-07-25 | :white_check_mark: Fixed |
-| Rocky Linux | 10 | 6.12.0-211.44.1.el10_2 | — | — | :x: Vulnerable — RHSA-2026:53330 not yet rebuilt |
-| Rocky Linux | 9 | 5.14.0-687.36.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
+| Rocky Linux | 10 | 6.12.0-211.46.1.el10_2 | 6.12.0-211.46.1.el10_2 | 2026-08-11 | :white_check_mark: Fixed — RHSA-2026:53330 |
+| Rocky Linux | 9 | 5.14.0-687.38.1.el9_8 | 5.14.0-687.38.1.el9_8 | 2026-08-11 | :white_check_mark: Fixed — RHSA-2026:53329 |
 | Rocky Linux | 8 | 4.18.0-553.154.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
 | Amazon Linux | 2023 (default) | 6.1.177-224.371 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (6.12 opt-in) | 6.12.95-124.187 | — | — | :x: Vulnerable — no ALAS yet |
@@ -219,26 +219,25 @@ RHEL-family kernels are long-lived forks with heavily backported feature
 sets, so the base version alone cannot decide whether the 2025 OVS cap
 removal is present — Red Hat's assessment is authoritative, and it
 arrived on 2026-07-27: **EL8 (4.18) is not affected** (*vulnerable code
-not present*), while **EL9 (5.14) and EL10 (6.12.0) are affected** with
-no fix available yet. EL9 carries the cap removal as a backport despite
-its base predating the regression — the same pattern as Proxmox's
-Ubuntu-derived 6.8 kernel. Red Hat shipped a first fix on 2026-08-06
-(RHSA-2026:51603/51604) for the RHEL 9.2 Extended Update Support
-stream (`kernel-5.14.0-284.186.1.el9_2`), followed on 2026-08-07 by
-EUS-only fixes for RHEL 9.4 (RHSA-2026:51746,
-`kernel-5.14.0-427.143.1.el9_4`) and RHEL 9.8 (RHSA-2026:53329,
-`kernel-5.14.0-687.38.1.el9_8`). All three are EUS streams Rocky does
-not rebuild; the general RHEL 9 stream Rocky 9 tracks remains unfixed.
-On 2026-08-11 Red Hat additionally fixed RHEL 10's general 10.2.Z
-stream (RHSA-2026:53330, `kernel-6.12.0-211.46.1.el10_2`) — the
-stream Rocky 10 tracks — but Rocky has not yet rebuilt it. Rocky
-rebuilds RHEL's kernels unchanged, so the Rocky 10 row flips once that
-rebuild reaches BaseOS (AlmaLinux, typically the fastest rebuild, is
-the leading indicator); Rocky 9 stays vulnerable until RHEL ships a
-general-stream fix. Oracle Linux
-and CloudLinux OS track the RHEL determination. The niche `kernel-rt`
-real-time variant carries the same per-release verdicts and has no
-separate row.
+not present*), while **EL9 (5.14) and EL10 (6.12.0) were affected**.
+EL9 carries the cap removal as a backport despite its base predating
+the regression — the same pattern as Proxmox's Ubuntu-derived 6.8
+kernel. Red Hat shipped a first fix on 2026-08-06 (RHSA-2026:51603/51604)
+for the RHEL 9.2 Extended Update Support stream
+(`kernel-5.14.0-284.186.1.el9_2`), followed on 2026-08-07 by RHEL 9.4
+(RHSA-2026:51746, `kernel-5.14.0-427.143.1.el9_4`) and RHEL 9.8
+(RHSA-2026:53329, `kernel-5.14.0-687.38.1.el9_8`) — the last covers
+the plain `kernel` package Rocky 9 tracks. On 2026-08-11 Red Hat
+additionally fixed RHEL 10's general 10.2.Z stream (RHSA-2026:53330,
+`kernel-6.12.0-211.46.1.el10_2`). Rocky rebuilds RHEL's kernels
+unchanged, and both rebuilds reached BaseOS the same day, 2026-08-11 —
+each build's packaging changelog names CVE-2026-64531 directly — so
+Rocky 9 and Rocky 10 are now fixed. RHEL 9's `kernel-rt` real-time
+variant lags behind the fix that landed in its plain `kernel` package
+— it remains `known_affected` with no `vendor_fix` yet, so a host
+running `kernel-rt` on RHEL/Rocky 9 is still exposed; it carries no
+separate row. Oracle Linux and CloudLinux OS track the RHEL
+determination.
 
 ### Amazon Linux
 
@@ -464,7 +463,7 @@ reproduced. Most readers never need it.
   - nixos-unstable carries 6.18.43.
   - nixos-unstable-small carries 6.18.44.
   - nixpkgs-unstable carries 6.18.44.
-  - nixos-26.05 carries 6.18.43.
+  - nixos-26.05 carries 6.18.44.
   - nixos-26.05-small carries 6.18.44.
   - each channel's *Fixed since* is the first published release whose
     revision contains its branch's 6.18.40 commit, resolved from the
@@ -478,20 +477,21 @@ reproduced. Most readers never need it.
   - Red Hat's assessment, released 2026-07-27: RHEL 9 and 10 `kernel`
     (and `kernel-rt`) *known_affected* with no remediation available;
     RHEL 8 (and 7) *known_not_affected*, justification
-    *vulnerable_code_not_present*. Revised 2026-08-06/07 with EUS-only
+    *vulnerable_code_not_present*. Revised 2026-08-06/07 with
     `vendor_fix` remediations for RHEL 9.2 (RHSA-2026:51603/51604,
     `...284.186.1.el9_2`), RHEL 9.4 (RHSA-2026:51746,
     `...427.143.1.el9_4`), and RHEL 9.8 (RHSA-2026:53329,
-    `...687.38.1.el9_8`) — none of which Rocky rebuilds. On
-    2026-08-11 Red Hat additionally fixed RHEL 10's general 10.2.Z
-    stream (RHSA-2026:53330, `kernel-6.12.0-211.46.1.el10_2`) — the
-    stream Rocky 10 tracks — while RHEL 9's general stream remains
-    `known_affected` with `none_available`.
-  - Rocky 10 — BaseOS kernel `6.12.0-211.44.1.el10_2`; RHEL 10's fix
-    (`...211.46.1.el10_2`) not yet rebuilt — vulnerable.
-  - Rocky 9 — `5.14.0-687.36.1.el9_8`; RHEL 9's general stream affected
-    (the 5.14 fork carries the cap removal by backport), no general-
-    stream RHSA yet — vulnerable.
+    `...687.38.1.el9_8`) — the last covers the plain `kernel` package
+    across every remaining RHEL 9 stream in the record, leaving only
+    `kernel-rt` `known_affected` there. On 2026-08-11 Red Hat
+    additionally fixed RHEL 10's general 10.2.Z stream
+    (RHSA-2026:53330, `kernel-6.12.0-211.46.1.el10_2`).
+  - Rocky 10 — BaseOS kernel `6.12.0-211.46.1.el10_2`, matching RHEL's
+    RHSA-2026:53330 fixed NVR; the packaging changelog names
+    CVE-2026-64531 directly (built/published 2026-08-11) — fixed.
+  - Rocky 9 — BaseOS kernel `5.14.0-687.38.1.el9_8`, matching RHEL's
+    RHSA-2026:53329 fixed NVR; the packaging changelog names
+    CVE-2026-64531 directly (built/published 2026-08-11) — fixed.
   - Rocky 8 — `4.18.0-553.154.1.el8_10`; RHEL 8 not affected — not
     affected.
 - **Amazon Linux** (via the AL2023 core repodata — `primary.xml.gz` for
