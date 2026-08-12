@@ -3,7 +3,7 @@ title: "OVSwrap — Open vSwitch datapath overflow"
 description: "Linux kernel Open vSwitch datapath integer/buffer overflow (CVE-2026-64531, OVSwrap) — unprivileged local privilege escalation — distro patch status tracker"
 layout: "single"
 date: 2026-07-29
-lastmod: 2026-08-11
+lastmod: 2026-08-12
 cover:
   image: "ovswrap-tracker.png"
   alt: "OVSwrap — Linux kernel Open vSwitch datapath overflow tracker"
@@ -95,7 +95,7 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Linux kernel | 6.1.x | 6.1.182 | 6.1.178 | 2026-07-24 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 5.15.x | 5.15.215 | 5.15.212 | 2026-07-24 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 5.10.x | 5.10.264 | — | — | :heavy_minus_sign: Not affected — predates the introducing commit |
-| Debian | sid (unstable) | 7.1.7-1 | 7.1.5-1 | 2026-07-27 | :white_check_mark: Fixed |
+| Debian | sid (unstable) | 7.1.8-1 | 7.1.5-1 | 2026-07-27 | :white_check_mark: Fixed |
 | Debian | forky (testing) | 7.1.7-1 | 7.1.6-1 | 2026-08-04 | :white_check_mark: Fixed |
 | Debian | 13 (trixie) | 6.12.101-1 | 6.12.100-1 | 2026-07-31 | :white_check_mark: Fixed — DSA-6405-1 |
 | Debian | 12 (bookworm) | 6.1.180-1 | 6.1.180-1 | 2026-08-04 | :white_check_mark: Fixed — DLA-4720-1 |
@@ -107,12 +107,12 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Proxmox VE | 8 (default) | 6.8.12-41-pve | 6.8.12-39 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | NixOS | master | 6.18.44 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | release-26.05 | 6.18.44 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
-| NixOS | Unstable | 6.18.43 | 6.18.40 | 2026-07-27 | :white_check_mark: Fixed |
+| NixOS | Unstable | 6.18.44 | 6.18.40 | 2026-07-27 | :white_check_mark: Fixed |
 | NixOS | Unstable (small) | 6.18.44 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | Unstable (nixpkgs) | 6.18.44 | 6.18.40 | 2026-07-26 | :white_check_mark: Fixed |
 | NixOS | 26.05 | 6.18.43 | 6.18.40 | 2026-07-26 | :white_check_mark: Fixed |
 | NixOS | 26.05 (small) | 6.18.44 | 6.18.40 | 2026-07-25 | :white_check_mark: Fixed |
-| Rocky Linux | 10 | 6.12.0-211.44.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
+| Rocky Linux | 10 | 6.12.0-211.44.1.el10_2 | — | — | :x: Vulnerable — RHSA-2026:53330 not yet rebuilt |
 | Rocky Linux | 9 | 5.14.0-687.36.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux | 8 | 4.18.0-553.154.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
 | Amazon Linux | 2023 (default) | 6.1.177-224.371 | — | — | :x: Vulnerable — no ALAS yet |
@@ -224,14 +224,18 @@ no fix available yet. EL9 carries the cap removal as a backport despite
 its base predating the regression — the same pattern as Proxmox's
 Ubuntu-derived 6.8 kernel. Red Hat shipped a first fix on 2026-08-06
 (RHSA-2026:51603/51604) for the RHEL 9.2 Extended Update Support
-stream (`kernel-5.14.0-284.186.1.el9_2`), followed on 2026-08-07 by a
-second EUS-only fix for RHEL 9.4 (RHSA-2026:51746,
-`kernel-5.14.0-427.143.1.el9_4`). Both are pinned older minor releases
-Rocky does not rebuild; the general RHEL 9 and RHEL 10 streams Rocky
-tracks remain unfixed. Rocky rebuilds RHEL's kernels
-unchanged, so these verdicts carry over; the affected rows flip when
-Rocky rebuilds the fixing RHSA for its tracked stream (AlmaLinux,
-typically the fastest rebuild, is the leading indicator). Oracle Linux
+stream (`kernel-5.14.0-284.186.1.el9_2`), followed on 2026-08-07 by
+EUS-only fixes for RHEL 9.4 (RHSA-2026:51746,
+`kernel-5.14.0-427.143.1.el9_4`) and RHEL 9.8 (RHSA-2026:53329,
+`kernel-5.14.0-687.38.1.el9_8`). All three are EUS streams Rocky does
+not rebuild; the general RHEL 9 stream Rocky 9 tracks remains unfixed.
+On 2026-08-11 Red Hat additionally fixed RHEL 10's general 10.2.Z
+stream (RHSA-2026:53330, `kernel-6.12.0-211.46.1.el10_2`) — the
+stream Rocky 10 tracks — but Rocky has not yet rebuilt it. Rocky
+rebuilds RHEL's kernels unchanged, so the Rocky 10 row flips once that
+rebuild reaches BaseOS (AlmaLinux, typically the fastest rebuild, is
+the leading indicator); Rocky 9 stays vulnerable until RHEL ships a
+general-stream fix. Oracle Linux
 and CloudLinux OS track the RHEL determination. The niche `kernel-rt`
 real-time variant carries the same per-release verdicts and has no
 separate row.
@@ -474,16 +478,20 @@ reproduced. Most readers never need it.
   - Red Hat's assessment, released 2026-07-27: RHEL 9 and 10 `kernel`
     (and `kernel-rt`) *known_affected* with no remediation available;
     RHEL 8 (and 7) *known_not_affected*, justification
-    *vulnerable_code_not_present*. Revised 2026-08-06 with a
-    `vendor_fix` remediation (RHSA-2026:51603 `kernel`, RHSA-2026:51604
-    `kernel-rt`), but scoped only to the RHEL 9.2 EUS product stream
-    (`...284.186.1.el9_2`) — the general RHEL 9 and RHEL 10 streams
-    Rocky rebuilds stay `known_affected` with `none_available`.
-  - Rocky 10 — BaseOS kernel `6.12.0-211.43.1.el10_2`; RHEL 10
-    affected, no RHSA — vulnerable.
+    *vulnerable_code_not_present*. Revised 2026-08-06/07 with EUS-only
+    `vendor_fix` remediations for RHEL 9.2 (RHSA-2026:51603/51604,
+    `...284.186.1.el9_2`), RHEL 9.4 (RHSA-2026:51746,
+    `...427.143.1.el9_4`), and RHEL 9.8 (RHSA-2026:53329,
+    `...687.38.1.el9_8`) — none of which Rocky rebuilds. On
+    2026-08-11 Red Hat additionally fixed RHEL 10's general 10.2.Z
+    stream (RHSA-2026:53330, `kernel-6.12.0-211.46.1.el10_2`) — the
+    stream Rocky 10 tracks — while RHEL 9's general stream remains
+    `known_affected` with `none_available`.
+  - Rocky 10 — BaseOS kernel `6.12.0-211.44.1.el10_2`; RHEL 10's fix
+    (`...211.46.1.el10_2`) not yet rebuilt — vulnerable.
   - Rocky 9 — `5.14.0-687.36.1.el9_8`; RHEL 9's general stream affected
-    (the 5.14 fork carries the cap removal by backport), no RHSA —
-    vulnerable.
+    (the 5.14 fork carries the cap removal by backport), no general-
+    stream RHSA yet — vulnerable.
   - Rocky 8 — `4.18.0-553.154.1.el8_10`; RHEL 8 not affected — not
     affected.
 - **Amazon Linux** (via the AL2023 core repodata — `primary.xml.gz` for
