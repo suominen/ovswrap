@@ -3,7 +3,7 @@ title: "OVSwrap — Open vSwitch datapath overflow"
 description: "Linux kernel Open vSwitch datapath integer/buffer overflow (CVE-2026-64531, OVSwrap) — unprivileged local privilege escalation — distro patch status tracker"
 layout: "single"
 date: 2026-07-29
-lastmod: 2026-08-12
+lastmod: 2026-08-13
 cover:
   image: "ovswrap-tracker.png"
   alt: "OVSwrap — Linux kernel Open vSwitch datapath overflow tracker"
@@ -232,12 +232,13 @@ additionally fixed RHEL 10's general 10.2.Z stream (RHSA-2026:53330,
 `kernel-6.12.0-211.46.1.el10_2`). Rocky rebuilds RHEL's kernels
 unchanged, and both rebuilds reached BaseOS the same day, 2026-08-11 —
 each build's packaging changelog names CVE-2026-64531 directly — so
-Rocky 9 and Rocky 10 are now fixed. RHEL 9's `kernel-rt` real-time
-variant lags behind the fix that landed in its plain `kernel` package
-— it remains `known_affected` with no `vendor_fix` yet, so a host
-running `kernel-rt` on RHEL/Rocky 9 is still exposed; it carries no
-separate row. Oracle Linux and CloudLinux OS track the RHEL
-determination.
+Rocky 9 and Rocky 10 are now fixed. Each of those advisories also
+ships the matching `kernel-rt` real-time build for its stream —
+RHSA-2026:51604 for 9.2 E4S, folded into RHSA-2026:51746 for 9.4
+E4S, into RHSA-2026:53329 for 9.8, and into RHSA-2026:53330 for RHEL
+10.2 — so a host running `kernel-rt` is covered by the same update
+as the plain `kernel` package; it carries no separate row. Oracle
+Linux and CloudLinux OS track the RHEL determination.
 
 ### Amazon Linux
 
@@ -457,10 +458,10 @@ reproduced. Most readers never need it.
   - every tracked ref resolves `linux_default` to `linux_6_18`, so the
     verdict turns only on which point release each has reached — all are
     fixed releases.
-  - `master` carries 6.18.43; it reached 6.18.40 in `147b03448643`.
-  - `release-26.05` carries 6.18.43; it reached 6.18.40 in
+  - `master` carries 6.18.44; it reached 6.18.40 in `147b03448643`.
+  - `release-26.05` carries 6.18.44; it reached 6.18.40 in
     `ea17fa586823`.
-  - nixos-unstable carries 6.18.43.
+  - nixos-unstable carries 6.18.44.
   - nixos-unstable-small carries 6.18.44.
   - nixpkgs-unstable carries 6.18.44.
   - nixos-26.05 carries 6.18.44.
@@ -478,14 +479,21 @@ reproduced. Most readers never need it.
     (and `kernel-rt`) *known_affected* with no remediation available;
     RHEL 8 (and 7) *known_not_affected*, justification
     *vulnerable_code_not_present*. Revised 2026-08-06/07 with
-    `vendor_fix` remediations for RHEL 9.2 (RHSA-2026:51603/51604,
-    `...284.186.1.el9_2`), RHEL 9.4 (RHSA-2026:51746,
-    `...427.143.1.el9_4`), and RHEL 9.8 (RHSA-2026:53329,
-    `...687.38.1.el9_8`) — the last covers the plain `kernel` package
-    across every remaining RHEL 9 stream in the record, leaving only
-    `kernel-rt` `known_affected` there. On 2026-08-11 Red Hat
-    additionally fixed RHEL 10's general 10.2.Z stream
-    (RHSA-2026:53330, `kernel-6.12.0-211.46.1.el10_2`).
+    `vendor_fix` remediations for RHEL 9.2 (RHSA-2026:51603,
+    `...284.186.1.el9_2`, plus the companion RHSA-2026:51604 for
+    `kernel-rt` `...284.186.1.rt14.471.el9_2`), RHEL 9.4
+    (RHSA-2026:51746, `...427.143.1.el9_4`, covering both `kernel`
+    and `kernel-rt`), and RHEL 9.8 (RHSA-2026:53329,
+    `...687.38.1.el9_8`, covering both `kernel` and `kernel-rt`) —
+    the last covers the plain `kernel` package across every remaining
+    RHEL 9 stream in the record. On 2026-08-11 Red Hat additionally
+    fixed RHEL 10's general 10.2.Z stream (RHSA-2026:53330,
+    `kernel-6.12.0-211.46.1.el10_2`, also covering `kernel-rt`). The
+    record's generic, stream-unbound
+    `red_hat_enterprise_linux_9:kernel-rt` product entry still shows
+    `known_affected`, but every dated EUS/E4S `kernel-rt` build now
+    has a matching `vendor_fix` remediation alongside its plain
+    `kernel`.
   - Rocky 10 — BaseOS kernel `6.12.0-211.46.1.el10_2`, matching RHEL's
     RHSA-2026:53330 fixed NVR; the packaging changelog names
     CVE-2026-64531 directly (built/published 2026-08-11) — fixed.
