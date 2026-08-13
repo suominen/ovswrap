@@ -112,9 +112,9 @@ per-distribution detail in the sections that follow. *First fixed* and
 | NixOS | Unstable (nixpkgs) | 6.18.44 | 6.18.40 | 2026-07-26 | :white_check_mark: Fixed |
 | NixOS | 26.05 | 6.18.44 | 6.18.40 | 2026-07-26 | :white_check_mark: Fixed |
 | NixOS | 26.05 (small) | 6.18.44 | 6.18.40 | 2026-07-25 | :white_check_mark: Fixed |
-| Rocky Linux | 10 | 6.12.0-211.46.1.el10_2 | 6.12.0-211.46.1.el10_2 | 2026-08-11 | :white_check_mark: Fixed — RHSA-2026:53330 |
+| Rocky Linux | 10 | 6.12.0-211.47.1.el10_2 | 6.12.0-211.46.1.el10_2 | 2026-08-11 | :white_check_mark: Fixed — RHSA-2026:53330 |
 | Rocky Linux | 9 | 5.14.0-687.38.1.el9_8 | 5.14.0-687.38.1.el9_8 | 2026-08-11 | :white_check_mark: Fixed — RHSA-2026:53329 |
-| Rocky Linux | 8 | 4.18.0-553.154.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
+| Rocky Linux | 8 | 4.18.0-553.155.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
 | Amazon Linux | 2023 (default) | 6.1.177-224.371 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (6.12 opt-in) | 6.12.95-124.187 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (6.18 opt-in) | 6.18.39-79.141 | — | — | :x: Vulnerable — no ALAS yet |
@@ -500,7 +500,7 @@ reproduced. Most readers never need it.
   - Rocky 9 — BaseOS kernel `5.14.0-687.38.1.el9_8`, matching RHEL's
     RHSA-2026:53329 fixed NVR; the packaging changelog names
     CVE-2026-64531 directly (built/published 2026-08-11) — fixed.
-  - Rocky 8 — `4.18.0-553.154.1.el8_10`; RHEL 8 not affected — not
+  - Rocky 8 — `4.18.0-553.155.1.el8_10`; RHEL 8 not affected — not
     affected.
 - **Amazon Linux** (via the AL2023 core repodata — `primary.xml.gz` for
   versions, `updateinfo.xml.gz` for advisories):
