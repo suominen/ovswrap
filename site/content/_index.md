@@ -3,7 +3,7 @@ title: "OVSwrap — Open vSwitch datapath overflow"
 description: "Linux kernel Open vSwitch datapath integer/buffer overflow (CVE-2026-64531, OVSwrap) — unprivileged local privilege escalation — distro patch status tracker"
 layout: "single"
 date: 2026-07-29
-lastmod: 2026-08-13
+lastmod: 2026-08-15
 cover:
   image: "ovswrap-tracker.png"
   alt: "OVSwrap — Linux kernel Open vSwitch datapath overflow tracker"
@@ -102,9 +102,9 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Debian | 12 (6.12 opt-in) | 6.12.100-1~deb12u1 | 6.12.100-1~deb12u1 | 2026-08-04 | :white_check_mark: Fixed |
 | Debian | 11 (bullseye, LTS) | 5.10.262-1 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
 | Debian | 11 (6.1 opt-in) | 6.1.180-1~deb11u1 | 6.1.180-1~deb11u1 | 2026-08-06 | :white_check_mark: Fixed |
-| Proxmox VE | 9 (default) | 7.0.14-11-pve | 7.0.14-8 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
+| Proxmox VE | 9 (default) | 7.0.14-12-pve | 7.0.14-8 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | Proxmox VE | 9 (6.17 old) | 6.17.13-21-pve | 6.17.13-21 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
-| Proxmox VE | 8 (default) | 6.8.12-41-pve | 6.8.12-39 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
+| Proxmox VE | 8 (default) | 6.8.12-42-pve | 6.8.12-39 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
 | NixOS | master | 6.18.44 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | release-26.05 | 6.18.44 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed |
 | NixOS | Unstable | 6.18.44 | 6.18.40 | 2026-07-27 | :white_check_mark: Fixed |
@@ -113,7 +113,7 @@ per-distribution detail in the sections that follow. *First fixed* and
 | NixOS | 26.05 | 6.18.44 | 6.18.40 | 2026-07-26 | :white_check_mark: Fixed |
 | NixOS | 26.05 (small) | 6.18.44 | 6.18.40 | 2026-07-25 | :white_check_mark: Fixed |
 | Rocky Linux | 10 | 6.12.0-211.47.1.el10_2 | 6.12.0-211.46.1.el10_2 | 2026-08-11 | :white_check_mark: Fixed — RHSA-2026:53330 |
-| Rocky Linux | 9 | 5.14.0-687.38.1.el9_8 | 5.14.0-687.38.1.el9_8 | 2026-08-11 | :white_check_mark: Fixed — RHSA-2026:53329 |
+| Rocky Linux | 9 | 5.14.0-687.39.1.el9_8 | 5.14.0-687.38.1.el9_8 | 2026-08-11 | :white_check_mark: Fixed — RHSA-2026:53329 |
 | Rocky Linux | 8 | 4.18.0-553.155.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
 | Amazon Linux | 2023 (default) | 6.1.177-224.371 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (6.12 opt-in) | 6.12.95-124.187 | — | — | :x: Vulnerable — no ALAS yet |
