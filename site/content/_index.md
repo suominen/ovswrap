@@ -99,7 +99,7 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Debian | forky (testing) | 7.1.7-1 | 7.1.6-1 | 2026-08-04 | :white_check_mark: Fixed |
 | Debian | 13 (trixie) | 6.12.101-1 | 6.12.100-1 | 2026-07-31 | :white_check_mark: Fixed — DSA-6405-1 |
 | Debian | 12 (bookworm) | 6.1.180-1 | 6.1.180-1 | 2026-08-04 | :white_check_mark: Fixed — DLA-4720-1 |
-| Debian | 12 (6.12 opt-in) | 6.12.100-1~deb12u1 | 6.12.100-1~deb12u1 | 2026-08-04 | :white_check_mark: Fixed |
+| Debian | 12 (6.12 opt-in) | 6.12.101-1~deb12u1 | 6.12.100-1~deb12u1 | 2026-08-04 | :white_check_mark: Fixed |
 | Debian | 11 (bullseye, LTS) | 5.10.262-1 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
 | Debian | 11 (6.1 opt-in) | 6.1.180-1~deb11u1 | 6.1.180-1~deb11u1 | 2026-08-06 | :white_check_mark: Fixed |
 | Proxmox VE | 9 (default) | 7.0.14-12-pve | 7.0.14-8 | 2026-07-29 | :white_check_mark: Fixed — cherry-pick |
@@ -431,8 +431,9 @@ reproduced. Most readers never need it.
     — fixed (window-derived; the tracker carries no `linux-6.1` record
     for this CVE). *First fixed* `6.1.180-1~deb11u1`; *Fixed since*
     2026-08-06, the version's `first_seen` in snapshot.debian.org.
-  - oldstable/bookworm opt-in `linux-6.12` — new source package, only
-    ever published as `6.12.100-1~deb12u1` in `bookworm-security`,
+  - oldstable/bookworm opt-in `linux-6.12` — new source package,
+    entered `bookworm-security` already carrying the fix at
+    `6.12.100-1~deb12u1` and has since moved to `6.12.101-1~deb12u1`,
     resolved status per the tracker — fixed on entry. *First fixed*
     `6.12.100-1~deb12u1`; *Fixed since* 2026-08-04, the version's
     `first_seen` in snapshot.debian.org.
