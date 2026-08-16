@@ -3,7 +3,7 @@ title: "OVSwrap — Open vSwitch datapath overflow"
 description: "Linux kernel Open vSwitch datapath integer/buffer overflow (CVE-2026-64531, OVSwrap) — unprivileged local privilege escalation — distro patch status tracker"
 layout: "single"
 date: 2026-07-29
-lastmod: 2026-08-15
+lastmod: 2026-08-16
 cover:
   image: "ovswrap-tracker.png"
   alt: "OVSwrap — Linux kernel Open vSwitch datapath overflow tracker"
@@ -95,8 +95,8 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Linux kernel | 6.1.x | 6.1.182 | 6.1.178 | 2026-07-24 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 5.15.x | 5.15.215 | 5.15.212 | 2026-07-24 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 5.10.x | 5.10.264 | — | — | :heavy_minus_sign: Not affected — predates the introducing commit |
-| Debian | sid (unstable) | 7.1.8-1 | 7.1.5-1 | 2026-07-27 | :white_check_mark: Fixed |
-| Debian | forky (testing) | 7.1.7-1 | 7.1.6-1 | 2026-08-04 | :white_check_mark: Fixed |
+| Debian | sid (unstable) | 7.1.8-2 | 7.1.5-1 | 2026-07-27 | :white_check_mark: Fixed |
+| Debian | forky (testing) | 7.1.8-1 | 7.1.6-1 | 2026-08-04 | :white_check_mark: Fixed |
 | Debian | 13 (trixie) | 6.12.101-1 | 6.12.100-1 | 2026-07-31 | :white_check_mark: Fixed — DSA-6405-1 |
 | Debian | 12 (bookworm) | 6.1.180-1 | 6.1.180-1 | 2026-08-04 | :white_check_mark: Fixed — DLA-4720-1 |
 | Debian | 12 (6.12 opt-in) | 6.12.101-1~deb12u1 | 6.12.100-1~deb12u1 | 2026-08-04 | :white_check_mark: Fixed |
