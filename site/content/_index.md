@@ -3,7 +3,7 @@ title: "OVSwrap — Open vSwitch datapath overflow"
 description: "Linux kernel Open vSwitch datapath integer/buffer overflow (CVE-2026-64531, OVSwrap) — unprivileged local privilege escalation — distro patch status tracker"
 layout: "single"
 date: 2026-07-29
-lastmod: 2026-08-16
+lastmod: 2026-08-17
 cover:
   image: "ovswrap-tracker.png"
   alt: "OVSwrap — Linux kernel Open vSwitch datapath overflow tracker"
@@ -87,7 +87,7 @@ per-distribution detail in the sections that follow. *First fixed* and
 
 | Distribution | Release | Current kernel | First fixed | Fixed since | Status |
 |---|---|---|---|---|---|
-| Linux kernel | mainline | 7.2-rc7 | 7.2-rc4 | 2026-07-19 | :white_check_mark: Fixed — carries `3f1f75536668` |
+| Linux kernel | mainline | 7.2 | 7.2-rc4 | 2026-07-19 | :white_check_mark: Fixed — carries `3f1f75536668` |
 | Linux kernel | 7.1.x | 7.1.8 | 7.1.5 | 2026-07-24 | :white_check_mark: Fixed |
 | Linux kernel | 6.18.x | 6.18.44 | 6.18.40 | 2026-07-24 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 6.12.x | 6.12.103 | 6.12.97 | 2026-07-24 | :white_check_mark: Fixed — LTS |
