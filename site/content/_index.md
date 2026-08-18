@@ -3,7 +3,7 @@ title: "OVSwrap — Open vSwitch datapath overflow"
 description: "Linux kernel Open vSwitch datapath integer/buffer overflow (CVE-2026-64531, OVSwrap) — unprivileged local privilege escalation — distro patch status tracker"
 layout: "single"
 date: 2026-07-29
-lastmod: 2026-08-17
+lastmod: 2026-08-18
 cover:
   image: "ovswrap-tracker.png"
   alt: "OVSwrap — Linux kernel Open vSwitch datapath overflow tracker"
@@ -115,9 +115,9 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Rocky Linux | 10 | 6.12.0-211.47.1.el10_2 | 6.12.0-211.46.1.el10_2 | 2026-08-11 | :white_check_mark: Fixed — RHSA-2026:53330 |
 | Rocky Linux | 9 | 5.14.0-687.39.1.el9_8 | 5.14.0-687.38.1.el9_8 | 2026-08-11 | :white_check_mark: Fixed — RHSA-2026:53329 |
 | Rocky Linux | 8 | 4.18.0-553.155.1.el8_10 | — | — | :heavy_minus_sign: Not affected — vulnerable code not present |
-| Amazon Linux | 2023 (default) | 6.1.177-224.371 | — | — | :x: Vulnerable — no ALAS yet |
-| Amazon Linux | 2023 (6.12 opt-in) | 6.12.95-124.187 | — | — | :x: Vulnerable — no ALAS yet |
-| Amazon Linux | 2023 (6.18 opt-in) | 6.18.39-79.141 | — | — | :x: Vulnerable — no ALAS yet |
+| Amazon Linux | 2023 (default) | 6.1.180-225.360 | 6.1.176-223.369 | 2026-07-27 | :white_check_mark: Fixed — ALAS2023-2026-2005 |
+| Amazon Linux | 2023 (6.12 opt-in) | 6.12.100-125.179 | 6.12.94-123.192 | 2026-07-27 | :white_check_mark: Fixed — ALAS2023-2026-2004 |
+| Amazon Linux | 2023 (6.18 opt-in) | 6.18.41-94.142 | 6.18.38-76.139 | 2026-07-27 | :white_check_mark: Fixed — ALAS2023-2026-2003 |
 {.distros}
 
 ### Linux kernel
@@ -242,10 +242,13 @@ Linux and CloudLinux OS track the RHEL determination.
 
 ### Amazon Linux
 
-No ALAS has been issued for this CVE yet, so every AL2023 kernel stream
-remains vulnerable pending an Amazon cherry-pick. The *default* row is
-the plain `kernel` package (a 6.1-series stream); the 6.12 and 6.18
-opt-in rows are the `kernel6.12` and `kernel6.18` packages.
+Amazon shipped one ALAS per AL2023 kernel stream, all issued 2026-07-27:
+**ALAS2023-2026-2005** fixed the *default* `kernel` package (a
+6.1-series stream) at `6.1.176-223.369.amzn2023`, **ALAS2023-2026-2004**
+fixed the `kernel6.12` opt-in at `6.12.94-123.192.amzn2023`, and
+**ALAS2023-2026-2003** fixed the `kernel6.18` opt-in at
+`6.18.38-76.139.amzn2023`. All three streams have since moved past
+their fixed build and remain fixed.
 
 ## Detection
 
@@ -505,11 +508,14 @@ reproduced. Most readers never need it.
     affected.
 - **Amazon Linux** (via the AL2023 core repodata — `primary.xml.gz` for
   versions, `updateinfo.xml.gz` for advisories):
-  - `updateinfo.xml.gz` has no entry for CVE-2026-64531 — no ALAS; all
-    three streams stay vulnerable.
-  - Streams (default `kernel` 6.1.177-224.371; `kernel6.12`
-    6.12.95-124.187; `kernel6.18` 6.18.39-79.141) are in-window and
-    below their series' fixed releases.
+  - `updateinfo.xml.gz` carries one ALAS per stream, all issued
+    2026-07-27: ALAS2023-2026-2005 (default `kernel`, fixed
+    `6.1.176-223.369.amzn2023`), ALAS2023-2026-2004 (`kernel6.12`,
+    fixed `6.12.94-123.192.amzn2023`), ALAS2023-2026-2003
+    (`kernel6.18`, fixed `6.18.38-76.139.amzn2023`) — fixed.
+  - Current published versions (default `kernel` 6.1.180-225.360;
+    `kernel6.12` 6.12.100-125.179; `kernel6.18` 6.18.41-94.142) are all
+    at or above their stream's fixed build.
 
 #### Scoring
 
