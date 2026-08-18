@@ -41,13 +41,21 @@ The rendered site is published at <https://kimmo.cloud/ovswrap/>.
 
 ## Your task
 
-Keep `site/content/_index.md` (the canonical tracker) up to date as the
-kernel fix is picked up by distro kernels.  After edits, rebuild with
-`make build` and publish with `make dist`.
+This tracker was archived on 2026-08-18 — it is no longer updated.
+Every tracked distribution has shipped a kernel carrying the
+`3f1f75536668` backport or runs a kernel line that predates the
+regression and was never affected; the in-window lines that ended
+without the fix (upstream 7.0.y and 6.13.y, the superseded Proxmox
+6.14 series) are covered in the prose as permanently vulnerable.  The
+auto-update (timer, unit symlinks, worktree, `auto-update` branch) has
+been torn down; do not resume routine updates.  If a genuinely new
+fact surfaces (e.g. a KEV listing), edit `site/content/_index.md`,
+rebuild with `make build`, and publish with `make dist` — but the
+default state is frozen.
 
-A scheduled background agent runs against this repo to refresh the tracker
-on its own.  If you find the file has been edited since you last looked,
-that's likely why — re-read before assuming stale state.
+The retirement followed `~/src/cve-tracker-template/LIFECYCLE.md`
+§ "Retiring a tracker" — the playbook for retiring (archiving) any of
+these trackers.
 
 ## Repo layout
 

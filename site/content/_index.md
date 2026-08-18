@@ -10,6 +10,13 @@ cover:
   hiddenInSingle: true
 ---
 
+*This tracker is no longer updated.  Every tracked distribution has
+shipped a kernel carrying the `3f1f75536668` backport, or runs a kernel
+line that predates the regression and was never affected; the in-window
+lines that ended without the fix (upstream 7.0.y and 6.13.y, and the
+superseded Proxmox 6.14 series) remain permanently vulnerable, as noted
+in the sections below.*
+
 ## Summary
 
 | Field | Detail |
