@@ -3,7 +3,7 @@ title: "OVSwrap — Open vSwitch datapath overflow"
 description: "Linux kernel Open vSwitch datapath integer/buffer overflow (CVE-2026-64531, OVSwrap) — unprivileged local privilege escalation — distro patch status tracker"
 layout: "single"
 date: 2026-07-29
-lastmod: 2026-08-18
+lastmod: 2026-10-06
 cover:
   image: "ovswrap-tracker.png"
   alt: "OVSwrap — Linux kernel Open vSwitch datapath overflow tracker"
@@ -103,7 +103,7 @@ per-distribution detail in the sections that follow. *First fixed* and
 | Linux kernel | 5.15.x | 5.15.215 | 5.15.212 | 2026-07-24 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 5.10.x | 5.10.264 | — | — | :heavy_minus_sign: Not affected — predates the introducing commit |
 | Debian | sid (unstable) | 7.1.8-2 | 7.1.5-1 | 2026-07-27 | :white_check_mark: Fixed |
-| Debian | forky (testing) | 7.1.8-1 | 7.1.6-1 | 2026-08-04 | :white_check_mark: Fixed |
+| Debian | forky (testing) | 7.1.8-1 | 7.1.6-1 | 2026-08-07 | :white_check_mark: Fixed |
 | Debian | 13 (trixie) | 6.12.101-1 | 6.12.100-1 | 2026-07-31 | :white_check_mark: Fixed — DSA-6405-1 |
 | Debian | 12 (bookworm) | 6.1.180-1 | 6.1.180-1 | 2026-08-04 | :white_check_mark: Fixed — DLA-4720-1 |
 | Debian | 12 (6.12 opt-in) | 6.12.101-1~deb12u1 | 6.12.100-1~deb12u1 | 2026-08-04 | :white_check_mark: Fixed |
@@ -424,8 +424,9 @@ reproduced. Most readers never need it.
   - testing/forky — carries the fix via `7.1.6-1` (the security tracker
     lists `7.1.5-1` as forky's fixed_version, but `7.1.5-1` never
     migrated to testing; `7.1.6-1` is the first forky upload at/above
-    it) — fixed. *First fixed* `7.1.6-1`; *Fixed since* 2026-08-04, the
-    version's `first_seen` in snapshot.debian.org.
+    it) — fixed. *First fixed* `7.1.6-1`; *Fixed since* 2026-08-07, the
+    day it migrated to testing per snapshot.debian.org's `dists/testing`
+    index.
   - stable/trixie — `6.12.100-1` (trixie-security) carries the fix,
     shipped as **DSA-6405-1** — fixed. *First fixed* `6.12.100-1`;
     *Fixed since* 2026-07-31, the version's `first_seen` in
